@@ -2,6 +2,7 @@
 #define FIXTURES_H
 #include <gtest/gtest.h>
 #include "cartesia.h"
+#include "matrices.h"
 
 class CartesiaPointTestFixture : public testing::TestWithParam<std::tuple<Point, float, float, float>>
 {
@@ -16,6 +17,14 @@ class CartesiaVectorDotProductTestFixture : public testing::TestWithParam<std::t
 };
 
 class CartesiaVectorCrossProductTestFixture : public testing::TestWithParam<std::tuple<Vector, Vector, Vector>>
+{
+};
+
+class MatricesEqualityTestFixture : public testing::TestWithParam<std::tuple<Matrix, Matrix, bool>>
+{
+};
+
+class MatricesMathTestFixture : public testing::TestWithParam<std::tuple<Matrix, Matrix, Matrix>>
 {
 };
 

@@ -57,3 +57,23 @@ TEST(CanvasTest, PPMPixelCheck)
     EXPECT_EQ(result[4], "0 0 0 0 0 0 0 128 0 0 0 0 0 0 0");
     EXPECT_EQ(result[5], "0 0 0 0 0 0 0 0 0 0 0 0 0 0 255");
 }
+
+TEST(CanvasTest, PPMLineLength)
+{
+    Canvas canvas = Canvas(10, 2);
+    for (int x = 0; x < canvas.width; x++)
+    {
+        for (int y = 0; y < canvas.height; y++)
+        {
+            canvas.setPixel(x, y, Color(1, 0.8, 0.6));
+        }
+    }
+
+    auto ppm = canvas.toPPM();
+    auto result = split(ppm, "\n");
+
+    EXPECT_EQ(result[3], "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204");
+    EXPECT_EQ(result[4], "153 255 204 153 255 204 153 255 204 153 255 204 153");
+    EXPECT_EQ(result[5], "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204");
+    EXPECT_EQ(result[6], "153 255 204 153 255 204 153 255 204 153 255 204 153");
+}

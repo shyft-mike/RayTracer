@@ -30,6 +30,7 @@ add_executable(
   tests/canvas_test.cpp
   tests/cartesia_test.cpp
   tests/colors_test.cpp
+  tests/matrices_test.cpp
 )
 target_link_libraries(
   tests

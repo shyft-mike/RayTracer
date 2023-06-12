@@ -134,7 +134,7 @@ inline Vector cross(const Vector &vector1, const Vector &vector2)
 
 inline std::ostream &operator<<(std::ostream &os, const Point &p)
 {
-    return (os << "(" << p.x << "," << p.y << "," << p.z << ")");
+    return (os << "Point(" << p.x << "," << p.y << "," << p.z << ")");
 }
 
 #endif

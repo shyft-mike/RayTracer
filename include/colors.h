@@ -44,4 +44,9 @@ inline Color operator*(const Color &color, const float &value)
         color.blue * value);
 }
 
+inline std::ostream &operator<<(std::ostream &os, const Color &c)
+{
+    return (os << "Color(" << c.red << "," << c.green << "," << c.blue << ")");
+}
+
 #endif

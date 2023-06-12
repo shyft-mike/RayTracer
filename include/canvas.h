@@ -33,12 +33,15 @@ public:
     {
         if (x >= this->width || x < 0 || y >= this->height || y < 0)
         {
+            std::cerr << "COULDN'T SET PIXEL AT (" << x << "," << y << ")" << std::endl;
             return;
         }
 
         int position = this->getPositionIndex(x, y);
 
         this->pixels.at(position) = pixel;
+
+        std::cerr << "SET PIXEL AT (" << x << "," << y << ") TO " << pixel << std::endl; 
     }
 
     std::string toPPM()
@@ -63,32 +66,58 @@ private:
     std::string generatePPMPixels()
     {
         std::string result = "";
-        short maxLineLength = 70;
 
         for (int y = 0; y < this->height; y++)
         {
             std::string line = "";
 
             for (int x = 0; x < this->width; x++)
-            {
+            {               
                 Color pixel = this->getPixel(x, y);
-                line += this->colorToPPM(pixel.red);
-                line += " ";
-                line += this->colorToPPM(pixel.green);
-                line += " ";
-                line += this->colorToPPM(pixel.blue);
-
-                if (x < this->width - 1)
-                {
-                    line += " ";
-                }
+                this->writeResult(result, line, pixel.red);
+                this->writeResult(result, line, pixel.green);
+                this->writeResult(result, line, pixel.blue);
             }
+
+            // Remove the final whitespace character
+            line.pop_back();
 
             result += line;
             result += "\n";
         }
 
         return result;
+    }
+
+    void writeResult(std::string &result, std::string &line, float colorValue)
+    {
+        short maxLineLength = 70;
+        
+        std::string colorPPM = this->colorToPPM(colorValue);
+        short newLineLength = line.length() + colorPPM.length();
+
+        if (newLineLength < 70)
+        {
+            line += colorPPM;
+            line += " ";
+        }
+        else if (newLineLength == 70)
+        {
+            line += colorPPM;
+            line += "\n";
+            result += line;
+            line = "";
+        }
+        else
+        {
+            line.pop_back();
+            line += "\n";
+            result += line;
+            line = "";
+
+            line += colorPPM;
+            line += " ";
+        }
     }
 
     std::string colorToPPM(float colorValue)

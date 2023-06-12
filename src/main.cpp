@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <filesystem>
 #include "cartesia.h"
 #include "canvas.h"
 
@@ -61,7 +62,8 @@ private:
 
     void saveCanvas()
     {
-        std::ofstream out("canvas.ppm");
+        std::filesystem::create_directory("../output");
+        std::ofstream out("../output/canvas.ppm");
         out << this->canvas.toPPM();
         out.close();
     }
