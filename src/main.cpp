@@ -3,6 +3,7 @@
 #include <filesystem>
 #include "cartesia.h"
 #include "canvas.h"
+#include "matrices.h"
 
 class RayTracer
 {

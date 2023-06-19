@@ -1,31 +1,22 @@
 #ifndef MATRICES_H
 #define MATRICES_H
 
+#include <vector>
+
 typedef std::vector<std::vector<float>> Matrix;
 
-inline Matrix operator*(const Matrix &m1, const Matrix &m2)
-{
-    short rowSize = m1.size();
-    short colSize = m1[0].size();
+Matrix operator*(const Matrix &m1, const Matrix &m2);
 
-    Matrix result = Matrix(rowSize, std::vector<float>(colSize));
+Matrix transpose(const Matrix matrix);
 
-    for (int row = 0; row < rowSize; row++)
-    {
-        for (int col = 0; col < colSize; col++)
-        {
-            float product = 0;
+Matrix submatrix(const Matrix matrix, short rowToRemove, short colToRemove);
 
-            for (int i = 0; i < colSize; i++)
-            {
-                product += m1[row][i] * m2[i][col];
-            }
+float determinant(const Matrix matrix);
 
-            result[row][col] = product;
-        }
-    }
+float minor(const Matrix matrix, short row, short col);
 
-    return result;
-}
+float cofactor(const Matrix matrix, short row, short col);
+
+Matrix inverse(const Matrix matrix);
 
 #endif

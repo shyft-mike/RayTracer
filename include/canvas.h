@@ -41,7 +41,7 @@ public:
 
         this->pixels.at(position) = pixel;
 
-        std::cerr << "SET PIXEL AT (" << x << "," << y << ") TO " << pixel << std::endl; 
+        std::cerr << "SET PIXEL AT (" << x << "," << y << ") TO " << pixel << std::endl;
     }
 
     std::string toPPM()
@@ -72,7 +72,7 @@ private:
             std::string line = "";
 
             for (int x = 0; x < this->width; x++)
-            {               
+            {
                 Color pixel = this->getPixel(x, y);
                 this->writeResult(result, line, pixel.red);
                 this->writeResult(result, line, pixel.green);
@@ -92,7 +92,7 @@ private:
     void writeResult(std::string &result, std::string &line, float colorValue)
     {
         short maxLineLength = 70;
-        
+
         std::string colorPPM = this->colorToPPM(colorValue);
         short newLineLength = line.length() + colorPPM.length();
 
@@ -130,7 +130,7 @@ private:
 
     int getPositionIndex(short x, short y)
     {
-        return (y * this->height) + x;
+        return (y * this->width) + x;
     }
 };
 
