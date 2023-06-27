@@ -1,16 +1,6 @@
 #include <gtest/gtest.h>
 #include "fixtures.h"
-
-void checkMatrix(const Matrix result, const Matrix expected)
-{
-    for (int i = 0; i < 4; i++)
-    {
-        for (int j = 0; j < 4; j++)
-        {
-            EXPECT_NEAR(result[i][j], expected[i][j], 0.0001);
-        }
-    }
-}
+#include "helpers.h"
 
 TEST_P(MatricesEqualityTestFixture, Equality)
 {
@@ -50,7 +40,7 @@ TEST_P(MatricesTransposeTestFixture, Transpose)
 {
     auto [matrix, expectedResult] = GetParam();
 
-    Matrix result = transpose(matrix);
+    Matrix result = MatrixHelper(matrix).transpose();
 
     EXPECT_EQ(result, expectedResult);
 }

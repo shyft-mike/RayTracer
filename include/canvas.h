@@ -1,5 +1,6 @@
 #ifndef CANVAS_H
 #define CANVAS_H
+#include <iostream>
 #include <vector>
 #include <cmath>
 #include <algorithm>

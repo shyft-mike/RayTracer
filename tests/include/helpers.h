@@ -1,9 +1,11 @@
 #ifndef HELPERS_H
 #define HELPERS_H
 
+#include <gtest/gtest.h>
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include "matrices.h"
 
 inline std::vector<std::string> split(std::string s, std::string delimiter)
 {
@@ -20,6 +22,20 @@ inline std::vector<std::string> split(std::string s, std::string delimiter)
 
     res.push_back(s.substr(pos_start));
     return res;
+}
+
+inline void checkMatrix(const Matrix result, const Matrix expected)
+{
+    short rowSize = result.size();
+    short colSize = result[0].size();
+
+    for (int i = 0; i < rowSize; i++)
+    {
+        for (int j = 0; j < colSize; j++)
+        {
+            EXPECT_NEAR(result[i][j], expected[i][j], 0.0001);
+        }
+    }
 }
 
 #endif

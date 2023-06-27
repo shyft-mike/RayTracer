@@ -32,4 +32,8 @@ class MatricesTransposeTestFixture : public testing::TestWithParam<std::tuple<Ma
 {
 };
 
+class TransformationsTestFixture : public testing::TestWithParam<std::tuple<Matrix, Matrix, Matrix>>
+{
+};
+
 #endif

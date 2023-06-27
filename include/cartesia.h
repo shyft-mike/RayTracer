@@ -2,38 +2,7 @@
 #define CARTESIA_H
 #include <iostream>
 #include <cmath>
-
-struct Point
-{
-    float x;
-    float y;
-    float z;
-
-    Point(float x, float y, float z) : x(x), y(y), z(z)
-    {
-    }
-};
-
-struct Vector
-{
-    float x;
-    float y;
-    float z;
-    float magnitude;
-
-    Vector(float x, float y, float z) : x(x), y(y), z(z)
-    {
-        this->magnitude = sqrt((x * x) + (y * y) + (z * z));
-    }
-
-    Vector normalize()
-    {
-        return Vector(
-            this->x / this->magnitude,
-            this->y / this->magnitude,
-            this->z / this->magnitude);
-    }
-};
+#include "matrices.h"
 
 inline Point operator-(const Point &point)
 {

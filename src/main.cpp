@@ -4,6 +4,7 @@
 #include "cartesia.h"
 #include "canvas.h"
 #include "matrices.h"
+#include "chapter4.h"
 
 class RayTracer
 {
@@ -31,7 +32,6 @@ public:
     Environment env;
     Projectile proj;
     Canvas canvas;
-    short runs = 0;
 
     RayTracer(Environment env, Projectile proj, Canvas canvas) : env(env), proj(proj), canvas(canvas)
     {
@@ -40,27 +40,14 @@ public:
 public:
     void run()
     {
-        Color pointColor = Color(0.75, 0.1, 0.1);
-        this->canvas.setPixel(this->proj.position.x, this->canvas.height - this->proj.position.y, pointColor);
+        Chapter4::Program program = Chapter4::Program(canvas);
 
-        while (this->proj.position.y > 0 && this->runs < 1000)
-        {
-            this->proj = tick();
-            this->canvas.setPixel(this->proj.position.x, this->canvas.height - this->proj.position.y, pointColor);
-            this->runs++;
-        }
+        program.execute();
 
         this->saveCanvas();
     }
 
 private:
-    Projectile tick()
-    {
-        Point newPosition = this->proj.position + this->proj.velocity;
-        Vector newVelocity = this->proj.velocity + this->env.gravity + this->env.wind;
-        return Projectile(newPosition, newVelocity);
-    }
-
     void saveCanvas()
     {
         std::filesystem::create_directory("../output");
