@@ -22,6 +22,11 @@ MatrixHelper MatrixHelper::rotate_z(float radians)
     return MatrixHelper(this->matrix * ::rotation_z(radians));
 }
 
+MatrixHelper MatrixHelper::scale(float x, float y, float z)
+{
+    return MatrixHelper(this->matrix * ::scaling(x, y, z));
+}
+
 Matrix translation(float x, float y, float z)
 {
     return {

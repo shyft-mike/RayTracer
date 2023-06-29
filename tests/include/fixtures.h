@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 #include "cartesia.h"
 #include "matrices.h"
+#include "intersections.h"
 
 class CartesiaPointTestFixture : public testing::TestWithParam<std::tuple<Point, float, float, float>>
 {
@@ -33,6 +34,14 @@ class MatricesTransposeTestFixture : public testing::TestWithParam<std::tuple<Ma
 };
 
 class TransformationsTestFixture : public testing::TestWithParam<std::tuple<Matrix, Matrix, Matrix>>
+{
+};
+
+class SpheresTestFixture : public testing::TestWithParam<std::tuple<Point, Vector, Intersections>>
+{
+};
+
+class IntersectionsTestFixture : public testing::TestWithParam<std::tuple<Intersections, std::optional<Intersection>>>
 {
 };
 

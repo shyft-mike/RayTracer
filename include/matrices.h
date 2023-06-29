@@ -58,6 +58,7 @@ struct MatrixHelper
     static MatrixHelper identity();
 
     Point to_point();
+    Vector to_vector();
 
     MatrixHelper transpose();
     MatrixHelper submatrix(short rowToRemove, short colToRemove);

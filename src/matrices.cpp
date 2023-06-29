@@ -11,6 +11,11 @@ Point MatrixHelper::to_point()
     return Point(this->matrix[0][0], this->matrix[1][0], this->matrix[2][0]);
 }
 
+Vector MatrixHelper::to_vector()
+{
+    return Vector(this->matrix[0][0], this->matrix[1][0], this->matrix[2][0]);
+}
+
 MatrixHelper MatrixHelper::transpose()
 {
     return MatrixHelper(::transpose(this->matrix));

@@ -13,31 +13,46 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
-include_directories(
-    include
-    tests/include
+add_executable(
+  main
 )
-
-# add_executable(
-#   ${PROJECT_NAME}
-#   src/main.cpp
-# )
+target_sources(
+  main
+  PUBLIC src/main.cpp
+  PRIVATE src/matrices.cpp
+  PRIVATE src/transformations.cpp
+)
+target_include_directories(
+  main
+  PRIVATE include
+)
 
 enable_testing()
 
 add_executable(
   tests
-  tests/canvas_test.cpp
-  tests/cartesia_test.cpp
-  tests/colors_test.cpp
-  tests/matrices_test.cpp
-  tests/transformations_test.cpp
-  src/matrices.cpp
-  src/transformations.cpp
+)
+target_sources(
+  tests
+  PRIVATE tests/canvas_test.cpp
+  PRIVATE tests/cartesia_test.cpp
+  PRIVATE tests/colors_test.cpp
+  PRIVATE tests/matrices_test.cpp
+  PRIVATE tests/intersections_test.cpp
+  PRIVATE tests/rays_test.cpp
+  PRIVATE tests/spheres_test.cpp
+  PRIVATE tests/transformations_test.cpp
+  PRIVATE src/matrices.cpp
+  PRIVATE src/transformations.cpp
 )
 target_link_libraries(
   tests
   GTest::gtest_main
+)
+target_include_directories(
+  tests
+  PRIVATE include
+  PRIVATE tests/include
 )
 
 include(GoogleTest)
