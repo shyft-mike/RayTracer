@@ -1,31 +1,5 @@
-#include "matrices.h"
-#include "transformations.h"
-#include "cartesia.h"
-
-MatrixHelper MatrixHelper::translate(float x, float y, float z)
-{
-    return MatrixHelper(this->matrix * ::translation(x, y, z));
-}
-
-MatrixHelper MatrixHelper::rotate_x(float radians)
-{
-    return MatrixHelper(this->matrix * ::rotation_x(radians));
-}
-
-MatrixHelper MatrixHelper::rotate_y(float radians)
-{
-    return MatrixHelper(this->matrix * ::rotation_y(radians));
-}
-
-MatrixHelper MatrixHelper::rotate_z(float radians)
-{
-    return MatrixHelper(this->matrix * ::rotation_z(radians));
-}
-
-MatrixHelper MatrixHelper::scale(float x, float y, float z)
-{
-    return MatrixHelper(this->matrix * ::scaling(x, y, z));
-}
+#include "raytracer/matrices/matrices.h"
+#include "raytracer/matrices/transformations.h"
 
 Matrix translation(float x, float y, float z)
 {

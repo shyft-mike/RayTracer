@@ -5,7 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include "matrices.h"
+#include "raytracer/matrices/matrices.h"
 
 inline std::vector<std::string> split(std::string s, std::string delimiter)
 {

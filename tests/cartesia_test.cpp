@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "cartesia.h"
+#include "raytracer/cartesia.h"
 #include "fixtures.h"
 
 TEST(CartesiaTest, PointBasics)

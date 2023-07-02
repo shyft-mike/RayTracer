@@ -1,30 +1,5 @@
 #include <stdexcept>
-#include "matrices.h"
-
-MatrixHelper MatrixHelper::identity()
-{
-    return MatrixHelper({{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}});
-}
-
-Point MatrixHelper::to_point()
-{
-    return Point(this->matrix[0][0], this->matrix[1][0], this->matrix[2][0]);
-}
-
-Vector MatrixHelper::to_vector()
-{
-    return Vector(this->matrix[0][0], this->matrix[1][0], this->matrix[2][0]);
-}
-
-MatrixHelper MatrixHelper::transpose()
-{
-    return MatrixHelper(::transpose(this->matrix));
-}
-
-MatrixHelper MatrixHelper::invert()
-{
-    return ::inverse(this->matrix);
-}
+#include "raytracer/matrices/matrices.h"
 
 Matrix operator*(const Matrix &m1, const Matrix &m2)
 {

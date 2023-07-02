@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "canvas.h"
+#include "raytracer/canvas.h"
 #include "helpers.h"
 
 TEST(CanvasTest, Constructor)

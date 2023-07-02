@@ -1,8 +1,7 @@
 #ifndef TRANSFORMATIONS_H
 #define TRANSFORMATIONS_H
 
-#include "matrices.h"
-#include "cartesia.h"
+#include "raytracer/matrices/matrices.h"
 
 Matrix translation(float x, float y, float z);
 Matrix translation(const Point &point);

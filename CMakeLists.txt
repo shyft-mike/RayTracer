@@ -19,8 +19,11 @@ add_executable(
 target_sources(
   main
   PUBLIC src/main.cpp
-  PRIVATE src/matrices.cpp
-  PRIVATE src/transformations.cpp
+  PRIVATE src/shapes/shapes.cpp
+  PRIVATE src/shapes/spheres.cpp
+  PRIVATE src/matrices/helper.cpp
+  PRIVATE src/matrices/matrices.cpp
+  PRIVATE src/matrices/transformations.cpp
 )
 target_include_directories(
   main
@@ -42,8 +45,10 @@ target_sources(
   PRIVATE tests/rays_test.cpp
   PRIVATE tests/spheres_test.cpp
   PRIVATE tests/transformations_test.cpp
-  PRIVATE src/matrices.cpp
-  PRIVATE src/transformations.cpp
+  PRIVATE src/matrices/helper.cpp
+  PRIVATE src/matrices/matrices.cpp
+  PRIVATE src/matrices/transformations.cpp
+  PRIVATE src/shapes/shapes.cpp
 )
 target_link_libraries(
   tests

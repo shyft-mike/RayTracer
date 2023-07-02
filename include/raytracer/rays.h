@@ -1,9 +1,9 @@
 #ifndef RAYS_H
 #define RAYS_H
 
-#include "cartesia.h"
-#include "matrices.h"
-#include "transformations.h"
+#include "raytracer/cartesia.h"
+#include "raytracer/matrices/matrices.h"
+#include "raytracer/matrices/helper.h"
 
 struct Ray
 {

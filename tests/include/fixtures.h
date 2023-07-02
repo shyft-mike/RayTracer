@@ -1,9 +1,9 @@
 #ifndef FIXTURES_H
 #define FIXTURES_H
 #include <gtest/gtest.h>
-#include "cartesia.h"
-#include "matrices.h"
-#include "intersections.h"
+#include "raytracer/cartesia.h"
+#include "raytracer/matrices/matrices.h"
+#include "raytracer/intersections.h"
 
 class CartesiaPointTestFixture : public testing::TestWithParam<std::tuple<Point, float, float, float>>
 {
