@@ -1,10 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
-#include "cartesia.h"
-#include "canvas.h"
-#include "matrices.h"
-#include "chapter4.h"
+#include "raytracer/cartesia.h"
+#include "raytracer/canvas.h"
+#include "raytracer/matrices/matrices.h"
+#include "raytracer/chapter4.h"
 
 class RayTracer
 {

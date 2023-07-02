@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "colors.h"
+#include "raytracer/colors.h"
 
 TEST(ColorsTest, Constructor)
 {

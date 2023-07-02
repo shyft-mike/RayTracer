@@ -2,7 +2,7 @@
 #define CARTESIA_H
 #include <iostream>
 #include <cmath>
-#include "matrices.h"
+#include "raytracer/matrices/matrices.h"
 
 inline Point operator-(const Point &point)
 {

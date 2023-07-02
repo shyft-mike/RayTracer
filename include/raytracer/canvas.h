@@ -4,7 +4,7 @@
 #include <vector>
 #include <cmath>
 #include <algorithm>
-#include "colors.h"
+#include "raytracer/colors.h"
 
 class Canvas
 {

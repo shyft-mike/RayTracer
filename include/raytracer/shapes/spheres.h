@@ -1,7 +1,7 @@
 #ifndef SPHERES_H
 #define SPHERES_H
 
-#include "shapes.h"
+#include "raytracer/shapes/shapes.h"
 
 struct Sphere : public IShape
 {

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include "rays.h"
-#include "matrices.h"
-#include "transformations.h"
+#include "raytracer/rays.h"
+#include "raytracer/matrices/matrices.h"
+#include "raytracer/matrices/transformations.h"
 
 TEST(RaysTest, Basic)
 {

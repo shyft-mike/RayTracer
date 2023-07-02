@@ -1,8 +1,9 @@
 #ifndef CHAPTER4_H
 #define CHAPTER4_H
 
-#include "canvas.h"
-#include "cartesia.h"
+#include "raytracer/canvas.h"
+#include "raytracer/cartesia.h"
+#include "raytracer/matrices/helper.h"
 
 namespace Chapter4
 {

@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <math.h>
-#include "transformations.h"
-#include "cartesia.h"
-#include "matrices.h"
+#include "raytracer/matrices/transformations.h"
+#include "raytracer/cartesia.h"
+#include "raytracer/matrices/matrices.h"
 #include "fixtures.h"
 #include "helpers.h"
 

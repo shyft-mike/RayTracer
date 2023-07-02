@@ -3,8 +3,8 @@
 
 #include <optional>
 #include <algorithm>
-#include "shapes.h"
-#include "rays.h"
+#include "raytracer/shapes/shapes.h"
+#include "raytracer/rays.h"
 
 struct Intersection
 {
@@ -14,6 +14,11 @@ struct Intersection
     Intersection(float t, IShape object) : t(t), object(object)
     {
     }
+
+    bool operator==(const Intersection &other) const
+    {
+        return (this->object == other.object) && (this->t == other.t);
+    }
 };
 
 struct Intersections : std::vector<Intersection>
@@ -22,11 +27,6 @@ struct Intersections : std::vector<Intersection>
     {
     }
 };
-
-inline bool operator==(const Intersection i1, const Intersection i2)
-{
-    return (i1.object == i2.object) && (i1.t == i2.t);
-}
 
 inline Intersections get_intersections(const IShape &shape, const Ray ray)
 {

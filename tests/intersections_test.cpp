@@ -1,7 +1,8 @@
 #include <gtest/gtest.h>
-#include "spheres.h"
+#include "raytracer/shapes/spheres.h"
+#include "raytracer/shapes/shapes.h"
 #include "fixtures.h"
-#include "intersections.h"
+#include "raytracer/intersections.h"
 
 const Sphere SPHERE = Sphere("test");
 
