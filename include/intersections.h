@@ -30,10 +30,11 @@ inline bool operator==(const Intersection i1, const Intersection i2)
 
 inline Intersections get_intersections(const IShape &shape, const Ray ray)
 {
-    Vector sphere_to_ray = ray.origin - Point(0, 0, 0);
+    Ray transformed_ray = ray * inverse(shape.transform);
+    Vector sphere_to_ray = transformed_ray.origin - Point(0, 0, 0);
 
-    float a = dot(ray.direction, ray.direction);
-    float b = 2 * dot(ray.direction, sphere_to_ray);
+    float a = dot(transformed_ray.direction, transformed_ray.direction);
+    float b = 2 * dot(transformed_ray.direction, sphere_to_ray);
     float c = dot(sphere_to_ray, sphere_to_ray) - 1;
 
     float discriminant = (b * b) - 4 * a * c;

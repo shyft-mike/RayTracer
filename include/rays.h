@@ -34,4 +34,11 @@ struct Ray
     }
 };
 
+inline Ray operator*(const Ray ray, const Matrix matrix)
+{
+    return Ray(
+        MatrixHelper(ray.origin * matrix).to_point(),
+        MatrixHelper(ray.direction * matrix).to_vector());
+}
+
 #endif

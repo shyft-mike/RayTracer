@@ -2,6 +2,7 @@
 #define SHAPES_H
 
 #include "matrices.h"
+#include "transformations.h"
 
 struct IShape
 {
@@ -15,7 +16,14 @@ struct IShape
 
     IShape translate(float x, float y, float z)
     {
-        this->transform *= translation(x,y,z);
+        this->transform = this->transform * translation(x, y, z);
+
+        return *this;
+    }
+
+    IShape scale(float x, float y, float z)
+    {
+        this->transform = this->transform * scaling(x, y, z);
 
         return *this;
     }

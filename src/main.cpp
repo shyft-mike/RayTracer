@@ -4,7 +4,7 @@
 #include "cartesia.h"
 #include "canvas.h"
 #include "matrices.h"
-#include "chapter4.h"
+#include "chapter5.h"
 
 class RayTracer
 {
@@ -40,7 +40,7 @@ public:
 public:
     void run()
     {
-        Chapter4::Program program = Chapter4::Program();
+        Chapter5::Program program = Chapter5::Program();
 
         program.execute(this->canvas);
 
@@ -61,7 +61,7 @@ int main()
 {
     RayTracer::Environment env = RayTracer::Environment(Vector(0, -0.1, 0), Vector(-0.01, 0, 0));
     RayTracer::Projectile proj = RayTracer::Projectile(Point(0, 1, 0), Vector(1, 1.8, 0).normalize() * 11.25);
-    Canvas canvas = Canvas(100, 100);
+    Canvas canvas = Canvas(200, 200);
 
     RayTracer(env, proj, canvas).run();
 
