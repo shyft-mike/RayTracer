@@ -7,12 +7,12 @@
             "args": [
                 "-std=c++17",
                 "-fdiagnostics-color=always",
-                "-g",
+                "-pg",
                 "${workspaceFolder}/src/*.cpp",
                 "-o",
                 "${workspaceFolder}/bin/${fileBasenameNoExtension}",
                 "-I",
-                "${workspaceFolder}/include"
+                "${workspaceFolder}/src"
             ],
             "options": {
                 "cwd": "${fileDirname}"

@@ -5,6 +5,8 @@ project(RayTracer)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(CMAKE_CXX_FLAGS "-pg")
+
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -18,16 +20,15 @@ add_executable(
 )
 target_sources(
   main
-  PUBLIC src/main.cpp
-  PRIVATE src/shapes/shapes.cpp
-  PRIVATE src/shapes/spheres.cpp
-  PRIVATE src/matrices/helper.cpp
-  PRIVATE src/matrices/matrices.cpp
-  PRIVATE src/matrices/transformations.cpp
+  PUBLIC src/raytracer.cpp
+  PRIVATE src/raytracer/core/shapes/shape.cpp
+  PRIVATE src/raytracer/core/matrices/helper.cpp
+  PRIVATE src/raytracer/core/matrices/matrix.cpp
+  PRIVATE src/raytracer/core/matrices/transformations.cpp
 )
 target_include_directories(
   main
-  PRIVATE include
+  PRIVATE src
 )
 
 enable_testing()
@@ -37,18 +38,17 @@ add_executable(
 )
 target_sources(
   tests
-  PRIVATE tests/canvas_test.cpp
-  PRIVATE tests/cartesia_test.cpp
-  PRIVATE tests/colors_test.cpp
-  PRIVATE tests/matrices_test.cpp
-  PRIVATE tests/intersections_test.cpp
-  PRIVATE tests/rays_test.cpp
-  PRIVATE tests/spheres_test.cpp
-  PRIVATE tests/transformations_test.cpp
-  PRIVATE src/matrices/helper.cpp
-  PRIVATE src/matrices/matrices.cpp
-  PRIVATE src/matrices/transformations.cpp
-  PRIVATE src/shapes/shapes.cpp
+  PRIVATE tests/canvas.test.cpp
+  PRIVATE tests/colors.test.cpp
+  PRIVATE tests/matrices.test.cpp
+  PRIVATE tests/intersections.test.cpp
+  PRIVATE tests/rays.test.cpp
+  PRIVATE tests/spheres.test.cpp
+  PRIVATE tests/transformations.test.cpp
+  PRIVATE src/raytracer/core/matrices/helper.cpp
+  PRIVATE src/raytracer/core/matrices/matrix.cpp
+  PRIVATE src/raytracer/core/matrices/transformations.cpp
+  PRIVATE src/raytracer/core/shapes/shape.cpp
 )
 target_link_libraries(
   tests
@@ -56,7 +56,7 @@ target_link_libraries(
 )
 target_include_directories(
   tests
-  PRIVATE include
+  PRIVATE src
   PRIVATE tests/include
 )
 
