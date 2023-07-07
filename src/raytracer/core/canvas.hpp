@@ -90,7 +90,10 @@ private:
             }
 
             // Remove the final whitespace character
-            line.pop_back();
+            if (line.size() > 0)
+            {
+                line.pop_back();
+            }
 
             result += line;
             result += "\n";

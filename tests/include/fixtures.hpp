@@ -3,6 +3,8 @@
 #include <gtest/gtest.h>
 #include <raytracer/core/matrices/matrix.hpp>
 #include <raytracer/core/intersections.hpp>
+#include <raytracer/core/materials/material.hpp>
+#include <raytracer/core/lights/light.hpp>
 
 class CartesiaPointTestFixture : public testing::TestWithParam<std::tuple<Point, float, float, float>>
 {
@@ -42,6 +44,13 @@ class SpheresTestFixture : public testing::TestWithParam<std::tuple<Point, Vecto
 
 class IntersectionsTestFixture : public testing::TestWithParam<std::tuple<Intersections, std::optional<Intersection>>>
 {
+};
+
+class MaterialLightingTestFixture : public testing::TestWithParam<std::tuple<Vector, Vector, PointLight, Color>>
+{
+public:
+    Material m = Material();
+    Point position = Point(0, 0, 0);
 };
 
 #endif

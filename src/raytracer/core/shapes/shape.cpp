@@ -8,6 +8,7 @@ Vector IShape::normal_at(float x, float y, float z)
     Point object_point = MatrixHelper(inverse(this->transform) * Point(x, y, z)).to_point();
     Vector object_normal = object_point - Point(0, 0, 0);
     Vector world_normal = MatrixHelper(transpose(inverse(this->transform)) * object_normal).to_vector();
+
     return world_normal.normalize();
 }
 
@@ -48,5 +49,10 @@ IShape IShape::rotate_z(float radians)
 
 bool IShape::operator==(const IShape &other) const
 {
+    if (this == &other)
+    {
+        return true;
+    }
+
     return this->id == other.id;
 }

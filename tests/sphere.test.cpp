@@ -5,6 +5,7 @@
 #include <raytracer/core/shapes/shape.hpp>
 #include <raytracer/core/intersections.hpp>
 #include <raytracer/core/matrices/transformations.hpp>
+#include <raytracer/core/materials/material.hpp>
 
 const Sphere SPHERE = Sphere("test");
 
@@ -25,7 +26,7 @@ TEST_P(SpheresTestFixture, Intersect)
 }
 
 INSTANTIATE_TEST_SUITE_P(
-    SpheresTest_Intersect,
+    SphereTest_Intersect,
     SpheresTestFixture,
     ::testing::Values(
         std::make_tuple(Point(0, 0, -5), Vector(0, 0, 1), Intersections({Intersection(4, SPHERE), Intersection(6, SPHERE)})),
@@ -33,7 +34,7 @@ INSTANTIATE_TEST_SUITE_P(
         std::make_tuple(Point(0, 0, 0), Vector(0, 0, 1), Intersections({Intersection(-1, SPHERE), Intersection(1, SPHERE)})),
         std::make_tuple(Point(0, 0, 5), Vector(0, 0, 1), Intersections({Intersection(-6, SPHERE), Intersection(-4, SPHERE)}))));
 
-TEST(SpheresTest, Default)
+TEST(SphereTest, Default)
 {
     Sphere result = Sphere("test");
 
@@ -41,7 +42,7 @@ TEST(SpheresTest, Default)
     EXPECT_EQ(result.transform, MatrixHelper::identity().matrix);
 }
 
-TEST(SpheresTest, IntersectScaledSphere)
+TEST(SphereTest, IntersectScaledSphere)
 {
     Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
     Sphere s = Sphere("test");
@@ -54,7 +55,7 @@ TEST(SpheresTest, IntersectScaledSphere)
     EXPECT_EQ(results[1].t, 7);
 }
 
-TEST(SpheresTest, IntersectTranslatedSphere)
+TEST(SphereTest, IntersectTranslatedSphere)
 {
     Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
     Sphere s = Sphere("test");
@@ -65,7 +66,7 @@ TEST(SpheresTest, IntersectTranslatedSphere)
     EXPECT_EQ(results.size(), 0);
 }
 
-TEST(SpheresTest, NormalX)
+TEST(SphereTest, NormalX)
 {
     Sphere s = Sphere("test");
 
@@ -74,7 +75,7 @@ TEST(SpheresTest, NormalX)
     EXPECT_EQ(result, Vector(1, 0, 0));
 }
 
-TEST(SpheresTest, NormalY)
+TEST(SphereTest, NormalY)
 {
     Sphere s = Sphere("test");
 
@@ -83,7 +84,7 @@ TEST(SpheresTest, NormalY)
     EXPECT_EQ(result, Vector(0, 1, 0));
 }
 
-TEST(SpheresTest, NormalZ)
+TEST(SphereTest, NormalZ)
 {
     Sphere s = Sphere("test");
 
@@ -92,7 +93,7 @@ TEST(SpheresTest, NormalZ)
     EXPECT_EQ(result, Vector(0, 0, 1));
 }
 
-TEST(SpheresTest, IsNormal)
+TEST(SphereTest, IsNormal)
 {
     Sphere s = Sphere("test");
 
@@ -101,7 +102,7 @@ TEST(SpheresTest, IsNormal)
     checkMatrix(result, result.normalize());
 }
 
-TEST(SpheresTest, NormalTranslated)
+TEST(SphereTest, NormalTranslated)
 {
     Sphere s = Sphere("test");
     s.translate(0, 1, 0);
@@ -111,7 +112,7 @@ TEST(SpheresTest, NormalTranslated)
     checkMatrix(result, Vector(0, 0.70711, -0.70711));
 }
 
-TEST(SpheresTest, NormalTransformed)
+TEST(SphereTest, NormalTransformed)
 {
     Sphere s = Sphere("test");
     s.scale(1, 0.5, 1).rotate_z(M_PI / 5);
@@ -119,4 +120,21 @@ TEST(SpheresTest, NormalTransformed)
     Vector result = s.normal_at(0, std::sqrt(2) / 2, -std::sqrt(2) / 2);
 
     checkMatrix(result, Vector(0, 0.97014, -0.24254));
+}
+
+TEST(SphereTest, DefaultMaterial)
+{
+    Sphere result = Sphere("test");
+
+    EXPECT_EQ(result.material, Material());
+}
+
+TEST(SphereTest, AssignedMaterial)
+{
+    Sphere result = Sphere("test");
+    Material m = Material();
+    m.ambient = 1;
+    result.material = m;
+
+    EXPECT_EQ(result.material, m);
 }

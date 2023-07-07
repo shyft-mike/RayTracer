@@ -4,6 +4,7 @@
 #include <math.h>
 #include <raytracer/core/matrices/transformations.hpp>
 #include <raytracer/core/matrices/matrix.hpp>
+#include <raytracer/core/matrices/helper.hpp>
 
 TEST_P(TransformationsTestFixture, Common)
 {

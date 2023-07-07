@@ -40,10 +40,12 @@ target_sources(
   tests
   PRIVATE tests/canvas.test.cpp
   PRIVATE tests/colors.test.cpp
-  PRIVATE tests/matrices.test.cpp
+  PRIVATE tests/light.test.cpp
+  PRIVATE tests/material.test.cpp
+  PRIVATE tests/matrix.test.cpp
   PRIVATE tests/intersections.test.cpp
   PRIVATE tests/rays.test.cpp
-  PRIVATE tests/spheres.test.cpp
+  PRIVATE tests/sphere.test.cpp
   PRIVATE tests/transformations.test.cpp
   PRIVATE src/raytracer/core/matrices/helper.cpp
   PRIVATE src/raytracer/core/matrices/matrix.cpp

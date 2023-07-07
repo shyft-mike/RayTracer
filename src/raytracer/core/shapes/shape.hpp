@@ -4,15 +4,18 @@
 #include <string>
 #include <raytracer/core/matrices/matrix.hpp>
 #include <raytracer/core/matrices/helper.hpp>
+#include <raytracer/core/materials/material.hpp>
 
 struct IShape
 {
     std::string id;
     Matrix transform;
+    Material material;
 
     IShape(std::string id) : id(id)
     {
         this->transform = MatrixHelper::identity();
+        this->material = Material();
     }
 
     Vector normal_at(float x, float y, float z);

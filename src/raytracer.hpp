@@ -4,9 +4,10 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <chrono>
 #include <raytracer/core/canvas.hpp>
 #include <raytracer/core/matrices/matrix.hpp>
-#include <raytracer/chapters/chapter5.hpp>
+#include <raytracer/chapters/chapter6.hpp>
 
 class RayTracer
 {
@@ -42,7 +43,7 @@ public:
 public:
     void run()
     {
-        Chapter5::Program program = Chapter5::Program();
+        Chapter6::Program program = Chapter6::Program();
 
         program.execute(this->canvas);
 
@@ -52,8 +53,11 @@ public:
 private:
     void saveCanvas()
     {
+        auto now = std::chrono::high_resolution_clock::now();
+        auto timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch());
+
         std::filesystem::create_directory("../output");
-        std::ofstream out("../output/canvas.ppm");
+        std::ofstream out("../output/canvas_" + std::to_string(timestamp.count()) + ".ppm");
         out << this->canvas.toPPM();
         out.close();
     }
