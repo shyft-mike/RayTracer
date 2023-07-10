@@ -6,6 +6,7 @@
 #include <sstream>
 #include <vector>
 #include <raytracer/core/matrices/matrix.hpp>
+#include <raytracer/core/colors.hpp>
 
 inline std::vector<std::string> split(std::string s, std::string delimiter)
 {
@@ -24,7 +25,7 @@ inline std::vector<std::string> split(std::string s, std::string delimiter)
     return res;
 }
 
-inline void checkMatrix(const Matrix result, const Matrix expected)
+inline void check_matrix(const Matrix &result, const Matrix &expected)
 {
     short rowSize = result.size();
     short colSize = result[0].size();
@@ -36,6 +37,13 @@ inline void checkMatrix(const Matrix result, const Matrix expected)
             EXPECT_NEAR(result[i][j], expected[i][j], 0.0001);
         }
     }
+}
+
+inline void check_color(const Color &result, const Color &expected)
+{
+    EXPECT_NEAR(result.blue, expected.blue, 0.0001);
+    EXPECT_NEAR(result.green, expected.green, 0.0001);
+    EXPECT_NEAR(result.red, expected.red, 0.0001);
 }
 
 #endif

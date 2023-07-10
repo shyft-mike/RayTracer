@@ -12,31 +12,9 @@
 class RayTracer
 {
 public:
-    struct Environment
-    {
-        Vector gravity;
-        Vector wind;
-
-        Environment(Vector gravity, Vector wind) : gravity(gravity), wind(wind)
-        {
-        }
-    };
-
-    struct Projectile
-    {
-        Point position;
-        Vector velocity;
-
-        Projectile(Point position, Vector velocity) : position(position), velocity(velocity)
-        {
-        }
-    };
-
-    Environment env;
-    Projectile proj;
     Canvas canvas;
 
-    RayTracer(Environment env, Projectile proj, Canvas canvas) : env(env), proj(proj), canvas(canvas)
+    RayTracer(Canvas canvas) : canvas(canvas)
     {
     }
 

@@ -142,7 +142,7 @@ TEST(MatricesTest, Invert)
     EXPECT_FLOAT_EQ(cofactor(matrix, 2, 3), -160);
     EXPECT_FLOAT_EQ(cofactor(matrix, 3, 2), 105);
 
-    checkMatrix(result, expectedResult);
+    check_matrix(result, expectedResult);
 }
 
 TEST(MatricesTest, InvertToOriginal)
@@ -154,7 +154,7 @@ TEST(MatricesTest, InvertToOriginal)
     Matrix inv = inverse(matrix2);
     result = result * inv;
 
-    checkMatrix(result, matrix1);
+    check_matrix(result, matrix1);
 }
 
 TEST(MatricesTest, PointBasics)
@@ -382,5 +382,5 @@ TEST(MatricesTest, ReflectSlanted)
 
     Matrix result = reflect(v, n);
 
-    checkMatrix(result, Vector(1, 0, 0));
+    check_matrix(result, Vector(1, 0, 0));
 }

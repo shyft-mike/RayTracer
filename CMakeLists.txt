@@ -47,6 +47,7 @@ target_sources(
   PRIVATE tests/rays.test.cpp
   PRIVATE tests/sphere.test.cpp
   PRIVATE tests/transformations.test.cpp
+  PRIVATE tests/world.test.cpp
   PRIVATE src/raytracer/core/matrices/helper.cpp
   PRIVATE src/raytracer/core/matrices/matrix.cpp
   PRIVATE src/raytracer/core/matrices/transformations.cpp

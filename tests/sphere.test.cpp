@@ -6,6 +6,7 @@
 #include <raytracer/core/intersections.hpp>
 #include <raytracer/core/matrices/transformations.hpp>
 #include <raytracer/core/materials/material.hpp>
+#include <raytracer/core/intersections.hpp>
 
 const Sphere SPHERE = Sphere("test");
 
@@ -14,7 +15,7 @@ TEST_P(SpheresTestFixture, Intersect)
     auto [origin, direction, expectedResult] = GetParam();
 
     Ray ray = Ray(origin, direction);
-    Intersections results = get_intersections(SPHERE, ray);
+    Intersections results = intersect_shape(SPHERE, ray);
 
     EXPECT_EQ(results.size(), expectedResult.size());
 
@@ -48,7 +49,7 @@ TEST(SphereTest, IntersectScaledSphere)
     Sphere s = Sphere("test");
     s.transform = scaling(2, 2, 2);
 
-    Intersections results = get_intersections(s, r);
+    Intersections results = intersect_shape(s, r);
 
     EXPECT_EQ(results.size(), 2);
     EXPECT_EQ(results[0].t, 3);
@@ -61,7 +62,7 @@ TEST(SphereTest, IntersectTranslatedSphere)
     Sphere s = Sphere("test");
     s.transform = translation(5, 0, 0);
 
-    Intersections results = get_intersections(s, r);
+    Intersections results = intersect_shape(s, r);
 
     EXPECT_EQ(results.size(), 0);
 }
@@ -99,7 +100,7 @@ TEST(SphereTest, IsNormal)
 
     Vector result = s.normal_at(std::sqrt(3) / 3, std::sqrt(3) / 3, std::sqrt(3) / 3);
 
-    checkMatrix(result, result.normalize());
+    check_matrix(result, result.normalize());
 }
 
 TEST(SphereTest, NormalTranslated)
@@ -109,7 +110,7 @@ TEST(SphereTest, NormalTranslated)
 
     Vector result = s.normal_at(0, 1.70711, -0.70711);
 
-    checkMatrix(result, Vector(0, 0.70711, -0.70711));
+    check_matrix(result, Vector(0, 0.70711, -0.70711));
 }
 
 TEST(SphereTest, NormalTransformed)
@@ -119,7 +120,7 @@ TEST(SphereTest, NormalTransformed)
 
     Vector result = s.normal_at(0, std::sqrt(2) / 2, -std::sqrt(2) / 2);
 
-    checkMatrix(result, Vector(0, 0.97014, -0.24254));
+    check_matrix(result, Vector(0, 0.97014, -0.24254));
 }
 
 TEST(SphereTest, DefaultMaterial)

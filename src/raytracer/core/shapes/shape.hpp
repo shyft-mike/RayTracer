@@ -5,6 +5,7 @@
 #include <raytracer/core/matrices/matrix.hpp>
 #include <raytracer/core/matrices/helper.hpp>
 #include <raytracer/core/materials/material.hpp>
+#include <raytracer/core/rays.hpp>
 
 struct IShape
 {
@@ -18,7 +19,7 @@ struct IShape
         this->material = Material();
     }
 
-    Vector normal_at(float x, float y, float z);
+    Vector normal_at(float x, float y, float z) const;
 
     IShape translate(float x, float y, float z);
 

@@ -15,7 +15,7 @@ struct Point : Matrix
 
     Point(float x, float y, float z) : x(x), y(y), z(z)
     {
-        this->assign(4, {{1}});
+        this->assign(4, {1});
         this->at(0).at(0) = x;
         this->at(1).at(0) = y;
         this->at(2).at(0) = z;
@@ -31,7 +31,7 @@ struct Vector : Matrix
 
     Vector(float x, float y, float z) : x(x), y(y), z(z)
     {
-        this->assign(4, {{0}});
+        this->assign(4, {0});
         this->at(0).at(0) = x;
         this->at(1).at(0) = y;
         this->at(2).at(0) = z;

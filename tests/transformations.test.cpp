@@ -12,7 +12,7 @@ TEST_P(TransformationsTestFixture, Common)
 
     Matrix result = point * transform;
 
-    checkMatrix(result, expectedResult);
+    check_matrix(result, expectedResult);
 }
 
 INSTANTIATE_TEST_SUITE_P(
@@ -74,15 +74,15 @@ TEST(TransformationsTest, IndividualTransforms)
 
     Matrix p2 = A * p;
 
-    checkMatrix(p2, Point(1, -1, 0));
+    check_matrix(p2, Point(1, -1, 0));
 
     Matrix p3 = B * p2;
 
-    checkMatrix(p3, Point(5, -5, 0));
+    check_matrix(p3, Point(5, -5, 0));
 
     Matrix p4 = C * p3;
 
-    checkMatrix(p4, Point(15, 0, 7));
+    check_matrix(p4, Point(15, 0, 7));
 }
 
 TEST(TransformationsTest, ChainedTransforms)
@@ -94,5 +94,5 @@ TEST(TransformationsTest, ChainedTransforms)
 
     Matrix T = C * B * A;
 
-    checkMatrix(T * p, Point(15, 0, 7));
+    check_matrix(T * p, Point(15, 0, 7));
 }

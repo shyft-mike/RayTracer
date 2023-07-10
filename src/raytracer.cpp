@@ -10,14 +10,11 @@ int main()
     using std::chrono::high_resolution_clock;
     using std::chrono::milliseconds;
 
-    RayTracer::Environment env = RayTracer::Environment(Vector(0, -0.1, 0), Vector(-0.01, 0, 0));
-    RayTracer::Projectile proj = RayTracer::Projectile(Point(0, 1, 0), Vector(1, 1.8, 0).normalize() * 11.25);
     Canvas canvas = Canvas(100, 100);
 
     auto start = high_resolution_clock::now();
 
-    RayTracer(env, proj, canvas)
-        .run();
+    RayTracer(canvas).run();
 
     auto end = high_resolution_clock::now();
 

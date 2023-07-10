@@ -2,8 +2,9 @@
 #include <raytracer/core/matrices/transformations.hpp>
 #include <raytracer/core/matrices/matrix.hpp>
 #include <raytracer/core/matrices/helper.hpp>
+#include <raytracer/core/rays.hpp>
 
-Vector IShape::normal_at(float x, float y, float z)
+Vector IShape::normal_at(float x, float y, float z) const
 {
     Point object_point = MatrixHelper(inverse(this->transform) * Point(x, y, z)).to_point();
     Vector object_normal = object_point - Point(0, 0, 0);

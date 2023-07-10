@@ -13,19 +13,19 @@ struct Ray
     {
     }
 
-    Point get_position(float time)
+    Point get_position(float time) const
     {
         return this->origin + this->direction * time;
     }
 
-    Ray translate(float x, float y, float z)
+    Ray translate(float x, float y, float z) const
     {
         return Ray(
             MatrixHelper(this->origin).translate(x, y, z).to_point(),
             MatrixHelper(this->direction).translate(x, y, z).to_vector());
     }
 
-    Ray scale(float x, float y, float z)
+    Ray scale(float x, float y, float z) const
     {
         return Ray(
             MatrixHelper(this->origin).scale(x, y, z).to_point(),

@@ -9,6 +9,7 @@
 #include <raytracer/core/matrices/transformations.hpp>
 #include <raytracer/core/intersections.hpp>
 #include <raytracer/core/lights/light.hpp>
+#include <raytracer/core/intersections.hpp>
 
 namespace Chapter6
 {
@@ -42,7 +43,7 @@ namespace Chapter6
                     Point position = Point(world_x, world_y, wall_z);
                     Ray r = Ray(origin, (position - origin).normalize());
 
-                    Intersections xs = get_intersections(sphere, r);
+                    Intersections xs = intersect_shape(sphere, r);
 
                     std::optional<Intersection> potential_hit = hit(xs);
 

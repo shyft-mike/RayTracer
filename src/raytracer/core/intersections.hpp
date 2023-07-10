@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <raytracer/core/shapes/shape.hpp>
 #include <raytracer/core/rays.hpp>
+#include <raytracer/core/matrices/matrix.hpp>
 
 struct Intersection
 {
@@ -21,6 +22,32 @@ struct Intersection
     }
 };
 
+struct ComputedIntersection : Intersection
+{
+    Point position;
+    Vector eye_direction;
+    Vector normal_direction;
+    bool inside{false};
+
+    ComputedIntersection(float t, IShape object, Point position, Vector eye_direction, Vector normal_direction)
+        : Intersection(t, object),
+          position(position),
+          eye_direction(eye_direction),
+          normal_direction(normal_direction)
+    {
+        if (dot(this->normal_direction, this->eye_direction) < 0)
+        {
+            this->inside = true;
+            this->normal_direction = -this->normal_direction;
+        }
+    }
+
+    ComputedIntersection(Intersection &in, Point position, Vector eye_direction, Vector normal_direction)
+        : ComputedIntersection(in.t, in.object, position, eye_direction, normal_direction)
+    {
+    }
+};
+
 struct Intersections : std::vector<Intersection>
 {
     Intersections(std::vector<Intersection> intersections) : std::vector<Intersection>(intersections)
@@ -28,7 +55,25 @@ struct Intersections : std::vector<Intersection>
     }
 };
 
-inline Intersections get_intersections(const IShape &shape, const Ray &ray)
+inline bool compareIntersection(const Intersection &i1, const Intersection &i2)
+{
+    return (i1.t < i2.t);
+}
+
+inline std::optional<Intersection> hit(Intersections &intersections)
+{
+    for (int i = 0; i < intersections.size(); i++)
+    {
+        if (intersections[i].t >= 0)
+        {
+            return intersections[i];
+        }
+    }
+
+    return std::nullopt;
+}
+
+inline Intersections intersect_shape(const IShape &shape, const Ray &ray)
 {
     Ray transformed_ray = ray * inverse(shape.transform);
     Vector sphere_to_ray = transformed_ray.origin - Point(0, 0, 0);
@@ -49,24 +94,15 @@ inline Intersections get_intersections(const IShape &shape, const Ray &ray)
          Intersection((-b + std::sqrt(discriminant)) / (2 * a), shape)});
 }
 
-inline bool compareIntersection(const Intersection &i1, const Intersection &i2)
+inline ComputedIntersection compute_intersection(Intersection &intersection, const Ray &ray)
 {
-    return (i1.t < i2.t);
-}
+    Point position = ray.get_position(intersection.t);
 
-inline std::optional<Intersection> hit(Intersections &intersections)
-{
-    std::sort(intersections.begin(), intersections.end(), compareIntersection);
-
-    for (int i = 0; i < intersections.size(); i++)
-    {
-        if (intersections[i].t >= 0)
-        {
-            return intersections[i];
-        }
-    }
-
-    return std::nullopt;
+    return ComputedIntersection(
+        intersection,
+        position,
+        -ray.direction,
+        intersection.object.normal_at(position.x, position.y, position.z));
 }
 
 #endif
