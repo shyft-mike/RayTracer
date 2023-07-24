@@ -54,18 +54,43 @@ inline Intersections intersect_world(const World &world, const Ray &ray)
     return results;
 }
 
+inline bool is_shadowed(const World &world, const Point &point)
+{
+    for (int i = 0; i < world.lights.size(); i++)
+    {
+        Vector point_to_light = world.lights[i].position - point;
+        float distance = point_to_light.magnitude;
+        Vector direction = point_to_light.normalize();
+
+        Ray r = Ray(point, direction);
+        Intersections intersections = intersect_world(world, r);
+
+        std::optional<Intersection> h = hit(intersections);
+
+        if (h.has_value() && h.value().t < distance)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 inline Color shade_hit(const World &world, const ComputedIntersection &computed_intersection)
 {
-    Color result = Color(0, 0, 0);
+    Color result = BLACK;
 
     for (int i = 0; i < world.lights.size(); i++)
     {
+        bool shadowed = is_shadowed(world, computed_intersection.over_position);
+
         Color shade = lighting(
             computed_intersection.object.material,
             world.lights[i],
-            computed_intersection.position,
+            computed_intersection.over_position,
             computed_intersection.eye_direction,
-            computed_intersection.normal_direction);
+            computed_intersection.normal_direction,
+            shadowed);
 
         result = result + shade;
     }

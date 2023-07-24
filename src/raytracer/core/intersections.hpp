@@ -3,6 +3,7 @@
 
 #include <optional>
 #include <algorithm>
+#include <raytracer/common/constants.hpp>
 #include <raytracer/core/shapes/shape.hpp>
 #include <raytracer/core/rays.hpp>
 #include <raytracer/core/matrices/matrix.hpp>
@@ -27,19 +28,23 @@ struct ComputedIntersection : Intersection
     Point position;
     Vector eye_direction;
     Vector normal_direction;
+    Point over_position;
     bool inside{false};
 
     ComputedIntersection(float t, IShape object, Point position, Vector eye_direction, Vector normal_direction)
         : Intersection(t, object),
           position(position),
           eye_direction(eye_direction),
-          normal_direction(normal_direction)
+          normal_direction(normal_direction),
+          over_position(position)
     {
         if (dot(this->normal_direction, this->eye_direction) < 0)
         {
             this->inside = true;
             this->normal_direction = -this->normal_direction;
         }
+
+        this->over_position = this->position + this->normal_direction * EPSILON;
     }
 
     ComputedIntersection(Intersection &in, Point position, Vector eye_direction, Vector normal_direction)

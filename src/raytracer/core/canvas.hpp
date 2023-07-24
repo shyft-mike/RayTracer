@@ -20,7 +20,7 @@ public:
         this->pixels.assign((width * height), Color(0, 0, 0));
     }
 
-    Color getPixel(short x, short y)
+    Color getPixel(short x, short y) const
     {
         if (x >= this->width || x < 0 || y >= this->height || y < 0)
         {
@@ -54,7 +54,7 @@ public:
         }
     }
 
-    std::string toPPM()
+    std::string toPPM() const
     {
         std::string ppm = "";
         ppm += "P3\n";
@@ -73,7 +73,7 @@ public:
     }
 
 private:
-    std::string generatePPMPixels()
+    std::string generatePPMPixels() const
     {
         std::string result = "";
 
@@ -102,7 +102,7 @@ private:
         return result;
     }
 
-    void writeResult(std::string &result, std::string &line, float colorValue)
+    void writeResult(std::string &result, std::string &line, float colorValue) const
     {
         short maxLineLength = 70;
 
@@ -133,7 +133,7 @@ private:
         }
     }
 
-    std::string colorToPPM(float colorValue)
+    std::string colorToPPM(float colorValue) const
     {
         int adjustedColorValue = std::ceil(colorValue * 255);
         std::string result = std::to_string(std::clamp(adjustedColorValue, 0, 255));
@@ -141,7 +141,7 @@ private:
         return result;
     }
 
-    int getPositionIndex(short x, short y)
+    int getPositionIndex(short x, short y) const
     {
         return (y * this->width) + x;
     }

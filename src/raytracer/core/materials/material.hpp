@@ -24,7 +24,7 @@ inline bool operator==(const Material &mat1, const Material &mat2)
     return (mat1.ambient == mat2.ambient) && (mat1.diffuse == mat2.diffuse) && (mat1.shininess == mat2.shininess) && (mat1.specular == mat2.specular) && (mat1.color == mat2.color);
 }
 
-inline Color lighting(const Material &material, const PointLight &light, const Point &position, const Vector &eye_vector, const Vector &normal_vector)
+inline Color lighting(const Material &material, const PointLight &light, const Point &position, const Vector &eye_vector, const Vector &normal_vector, const bool in_shadow)
 {
     Color ambient = {};
     Color diffuse = {};
@@ -66,7 +66,14 @@ inline Color lighting(const Material &material, const PointLight &light, const P
         }
     }
 
-    return ambient + diffuse + specular;
+    if (in_shadow)
+    {
+        return ambient;
+    }
+    else
+    {
+        return ambient + diffuse + specular;
+    }
 }
 
 #endif

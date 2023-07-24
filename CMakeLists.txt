@@ -5,7 +5,7 @@ project(RayTracer)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_CXX_FLAGS "-pg")
+# set(CMAKE_CXX_FLAGS "-pg")
 
 include(FetchContent)
 FetchContent_Declare(
@@ -38,6 +38,7 @@ add_executable(
 )
 target_sources(
   tests
+  PRIVATE tests/camera.test.cpp
   PRIVATE tests/canvas.test.cpp
   PRIVATE tests/colors.test.cpp
   PRIVATE tests/light.test.cpp

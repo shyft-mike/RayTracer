@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <fixtures.hpp>
+#include <raytracer/common/constants.hpp>
 #include <raytracer/core/shapes/sphere.hpp>
 #include <raytracer/core/shapes/shape.hpp>
 #include <raytracer/core/intersections.hpp>
@@ -66,4 +67,17 @@ TEST(IntersectionsTest, IntersectionInside)
     EXPECT_EQ(result.position, Point(0, 0, 1));
     EXPECT_EQ(result.eye_direction, Vector(0, 0, -1));
     EXPECT_EQ(result.normal_direction, Vector(0, 0, -1));
+}
+
+TEST(IntersectionsTest, HitShouldOffsetPoint)
+{
+    Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
+    Sphere shape = Sphere("1");
+    shape.transform = MatrixHelper(shape.transform).translate(0, 0, 1);
+    Intersection i = Intersection(5, shape);
+
+    ComputedIntersection result = compute_intersection(i, r);
+
+    EXPECT_TRUE(result.over_position.z < -FLT_EPSILON / 2);
+    EXPECT_TRUE(result.position.z > result.over_position.z);
 }

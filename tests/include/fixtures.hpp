@@ -46,7 +46,7 @@ class IntersectionsTestFixture : public testing::TestWithParam<std::tuple<Inters
 {
 };
 
-class MaterialLightingTestFixture : public testing::TestWithParam<std::tuple<Vector, Vector, PointLight, Color>>
+class MaterialLightingTestFixture : public testing::TestWithParam<std::tuple<Vector, Vector, PointLight, Color, bool>>
 {
 public:
     Material m = Material();

@@ -17,9 +17,9 @@ TEST(MaterialTest, Default)
 
 TEST_P(MaterialLightingTestFixture, Lighting)
 {
-    auto [eye_vector, normal_vector, light, expectedResult] = GetParam();
+    auto [eye_vector, normal_vector, light, expectedResult, is_shadow] = GetParam();
 
-    Color result = lighting(this->m, light, this->position, eye_vector, normal_vector);
+    Color result = lighting(this->m, light, this->position, eye_vector, normal_vector, is_shadow);
 
     EXPECT_NEAR(result.blue, expectedResult.blue, 0.0001);
     EXPECT_NEAR(result.green, expectedResult.green, 0.0001);
@@ -30,8 +30,9 @@ INSTANTIATE_TEST_CASE_P(
     MaterialTest,
     MaterialLightingTestFixture,
     ::testing::Values(
-        std::make_tuple(Vector(0, 0, -1), Vector(0, 0, -1), PointLight(Point(0, 0, -10), Color(1, 1, 1)), Color(1.9, 1.9, 1.9)),
-        std::make_tuple(Vector(0, std::sqrt(2) / 2, -std::sqrt(2) / 2), Vector(0, 0, -1), PointLight(Point(0, 0, -10), Color(1, 1, 1)), Color(1.0, 1.0, 1.0)),
-        std::make_tuple(Vector(0, 0, -1), Vector(0, 0, -1), PointLight(Point(0, 10, -10), Color(1, 1, 1)), Color(0.7364, 0.7364, 0.7364)),
-        std::make_tuple(Vector(0, -std::sqrt(2) / 2, -std::sqrt(2) / 2), Vector(0, 0, -1), PointLight(Point(0, 10, -10), Color(1, 1, 1)), Color(1.6364, 1.6364, 1.6364)),
-        std::make_tuple(Vector(0, 0, -1), Vector(0, 0, -1), PointLight(Point(0, 0, 10), Color(1, 1, 1)), Color(0.1, 0.1, 0.1))));
+        std::make_tuple(Vector(0, 0, -1), Vector(0, 0, -1), PointLight(Point(0, 0, -10), Color(1, 1, 1)), Color(1.9, 1.9, 1.9), false),
+        std::make_tuple(Vector(0, std::sqrt(2) / 2, -std::sqrt(2) / 2), Vector(0, 0, -1), PointLight(Point(0, 0, -10), Color(1, 1, 1)), Color(1.0, 1.0, 1.0), false),
+        std::make_tuple(Vector(0, 0, -1), Vector(0, 0, -1), PointLight(Point(0, 10, -10), Color(1, 1, 1)), Color(0.7364, 0.7364, 0.7364), false),
+        std::make_tuple(Vector(0, -std::sqrt(2) / 2, -std::sqrt(2) / 2), Vector(0, 0, -1), PointLight(Point(0, 10, -10), Color(1, 1, 1)), Color(1.6364, 1.6364, 1.6364), false),
+        std::make_tuple(Vector(0, 0, -1), Vector(0, 0, -1), PointLight(Point(0, 0, 10), Color(1, 1, 1)), Color(0.1, 0.1, 0.1), false),
+        std::make_tuple(Vector(0, 0, -1), Vector(0, 0, -1), PointLight(Point(0, 0, -10), Color(1, 1, 1)), Color(0.1, 0.1, 0.1), true)));

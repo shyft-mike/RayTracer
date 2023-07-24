@@ -3,7 +3,7 @@
 
 namespace config
 {
-    bool is_debug = false;
+    const bool is_debug = false;
 }
 
 #endif

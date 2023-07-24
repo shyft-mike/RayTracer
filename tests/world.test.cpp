@@ -51,6 +51,24 @@ TEST(WorldTest, ShadingIntersectionInside)
     check_color(result, Color(0.90498, 0.90498, 0.90498));
 }
 
+TEST(WorldTest, ShadeHitInShadow)
+{
+    World w = World();
+    w.lights = {PointLight(Point(0, 0, -10), Color(1, 1, 1))};
+    Sphere s1 = Sphere("s1");
+    Sphere s2 = Sphere("s2");
+    s2.transform = MatrixHelper(s2.transform).translate(0, 0, 10);
+    w.shapes = {s1, s2};
+
+    Ray r = Ray(Point(0, 0, 5), Vector(0, 0, 1));
+    Intersection i = Intersection(4, s2);
+    ComputedIntersection c_i = compute_intersection(i, r);
+
+    Color result = shade_hit(w, c_i);
+
+    check_color(result, Color(0.1, 0.1, 0.1));
+}
+
 TEST(WorldTest, ColorWhenMissed)
 {
     World w = create_default_world();
@@ -83,4 +101,44 @@ TEST(WorldTest, ColorHitBehind)
     Color result = color_at(w, r);
 
     check_color(result, inner.material.color);
+}
+
+TEST(WorldTest, ShadowNothingCollinearWithPointAndLight)
+{
+    World w = create_default_world();
+    Point p = Point(0, 10, 0);
+
+    bool result = is_shadowed(w, p);
+
+    EXPECT_EQ(result, false);
+}
+
+TEST(WorldTest, ShadowObjectBetweenPointAndLight)
+{
+    World w = create_default_world();
+    Point p = Point(10, -10, 10);
+
+    bool result = is_shadowed(w, p);
+
+    EXPECT_EQ(result, true);
+}
+
+TEST(WorldTest, ShadowWhenObjectBehindLight)
+{
+    World w = create_default_world();
+    Point p = Point(-20, 20, -20);
+
+    bool result = is_shadowed(w, p);
+
+    EXPECT_EQ(result, false);
+}
+
+TEST(WorldTest, ShadowObjectBehindPoint)
+{
+    World w = create_default_world();
+    Point p = Point(-2, 2, -2);
+
+    bool result = is_shadowed(w, p);
+
+    EXPECT_EQ(result, false);
 }

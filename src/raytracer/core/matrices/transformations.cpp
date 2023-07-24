@@ -1,4 +1,5 @@
 #include <raytracer/core/matrices/matrix.hpp>
+#include <raytracer/core/matrices/helper.hpp>
 #include <raytracer/core/matrices/transformations.hpp>
 
 Matrix translation(float x, float y, float z)
@@ -63,4 +64,19 @@ Matrix shearing(float x_y, float x_z, float y_x, float y_z, float z_x, float z_y
         {y_x, 1, y_z, 0},
         {z_x, z_y, 1, 0},
         {0, 0, 0, 1}};
+}
+
+Matrix view_transform(const Point &from, const Point &to, const Vector &up)
+{
+    Vector forward = (to - from).normalize();
+    Vector left = cross(forward, up.normalize());
+    Vector true_up = cross(left, forward);
+
+    Matrix orientation = {
+        {left.x, left.y, left.z, 0},
+        {true_up.x, true_up.y, true_up.z, 0},
+        {-forward.x, -forward.y, -forward.z, 0},
+        {0, 0, 0, 1}};
+
+    return orientation * translation(-from.x, -from.y, -from.z);
 }

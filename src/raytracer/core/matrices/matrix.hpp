@@ -39,7 +39,7 @@ struct Vector : Matrix
         this->magnitude = sqrt((x * x) + (y * y) + (z * z));
     }
 
-    Vector normalize()
+    Vector normalize() const
     {
         return Vector(
             this->x / this->magnitude,
