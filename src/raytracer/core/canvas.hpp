@@ -20,19 +20,19 @@ public:
         this->pixels.assign((width * height), Color(0, 0, 0));
     }
 
-    Color getPixel(short x, short y) const
+    Color get_pixel(short x, short y) const
     {
         if (x >= this->width || x < 0 || y >= this->height || y < 0)
         {
             return Color(0, 0, 0);
         }
 
-        int position = this->getPositionIndex(x, y);
+        int position = this->get_position_index(x, y);
 
         return this->pixels.at(position);
     }
 
-    void setPixel(short x, short y, const Color &pixel)
+    void set_pixel(short x, short y, const Color &pixel)
     {
         if (x >= this->width || x < 0 || y >= this->height || y < 0)
         {
@@ -44,7 +44,7 @@ public:
             return;
         }
 
-        int position = this->getPositionIndex(x, y);
+        int position = this->get_position_index(x, y);
 
         this->pixels.at(position) = pixel;
 
@@ -54,7 +54,7 @@ public:
         }
     }
 
-    std::string toPPM() const
+    std::string to_ppm() const
     {
         std::string ppm = "";
         ppm += "P3\n";
@@ -67,13 +67,13 @@ public:
         ppm += "255";
         ppm += "\n";
 
-        ppm += this->generatePPMPixels();
+        ppm += this->generate_ppm_pixels();
 
         return ppm;
     }
 
 private:
-    std::string generatePPMPixels() const
+    std::string generate_ppm_pixels() const
     {
         std::string result = "";
 
@@ -83,10 +83,10 @@ private:
 
             for (int x = 0; x < this->width; x++)
             {
-                Color pixel = this->getPixel(x, y);
-                this->writeResult(result, line, pixel.red);
-                this->writeResult(result, line, pixel.green);
-                this->writeResult(result, line, pixel.blue);
+                Color pixel = this->get_pixel(x, y);
+                this->write_result(result, line, pixel.red);
+                this->write_result(result, line, pixel.green);
+                this->write_result(result, line, pixel.blue);
             }
 
             // Remove the final whitespace character
@@ -102,11 +102,11 @@ private:
         return result;
     }
 
-    void writeResult(std::string &result, std::string &line, float colorValue) const
+    void write_result(std::string &result, std::string &line, float colorValue) const
     {
         short maxLineLength = 70;
 
-        std::string colorPPM = this->colorToPPM(colorValue);
+        std::string colorPPM = this->color_to_ppm(colorValue);
         short newLineLength = line.length() + colorPPM.length();
 
         if (newLineLength < 70)
@@ -133,7 +133,7 @@ private:
         }
     }
 
-    std::string colorToPPM(float colorValue) const
+    std::string color_to_ppm(float colorValue) const
     {
         int adjustedColorValue = std::ceil(colorValue * 255);
         std::string result = std::to_string(std::clamp(adjustedColorValue, 0, 255));
@@ -141,7 +141,7 @@ private:
         return result;
     }
 
-    int getPositionIndex(short x, short y) const
+    int get_position_index(short x, short y) const
     {
         return (y * this->width) + x;
     }

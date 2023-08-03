@@ -55,9 +55,9 @@ TEST(WorldTest, ShadeHitInShadow)
 {
     World w = World();
     w.lights = {PointLight(Point(0, 0, -10), Color(1, 1, 1))};
-    Sphere s1 = Sphere("s1");
-    Sphere s2 = Sphere("s2");
-    s2.transform = MatrixHelper(s2.transform).translate(0, 0, 10);
+    IShape *s1 = new Sphere("s1");
+    IShape *s2 = new Sphere("s2");
+    s2->translate(0, 0, 10);
     w.shapes = {s1, s2};
 
     Ray r = Ray(Point(0, 0, 5), Vector(0, 0, 1));
@@ -92,9 +92,9 @@ TEST(WorldTest, ColorHit)
 TEST(WorldTest, ColorHitBehind)
 {
     World w = create_default_world();
-    IShape &outer = w.shapes[0];
+    IShape &outer = *w.shapes[0];
     outer.material.ambient = 1;
-    IShape &inner = w.shapes[1];
+    IShape &inner = *w.shapes[1];
     inner.material.ambient = 1;
     Ray r = Ray(Point(0, 0, 0.75), Vector(0, 0, -1));
 

@@ -22,9 +22,9 @@ TEST(CanvasTest, SetPixel)
     Canvas canvas = Canvas(10, 20);
     Color pixel = Color(1, 0, 0);
 
-    canvas.setPixel(2, 3, pixel);
+    canvas.set_pixel(2, 3, pixel);
 
-    Color result = canvas.getPixel(2, 3);
+    Color result = canvas.get_pixel(2, 3);
 
     EXPECT_FLOAT_EQ(result.red, pixel.red);
     EXPECT_FLOAT_EQ(result.green, pixel.green);
@@ -35,7 +35,7 @@ TEST(CanvasTest, PPM)
 {
     Canvas canvas = Canvas(5, 3);
 
-    auto ppm = canvas.toPPM();
+    auto ppm = canvas.to_ppm();
     auto result = split(ppm, "\n");
 
     EXPECT_EQ(result[0], "P3");
@@ -46,11 +46,11 @@ TEST(CanvasTest, PPM)
 TEST(CanvasTest, PPMPixelCheck)
 {
     Canvas canvas = Canvas(5, 3);
-    canvas.setPixel(0, 0, Color(1.5, 0, 0));
-    canvas.setPixel(2, 1, Color(0, 0.5, 0));
-    canvas.setPixel(4, 2, Color(-0.5, 0, 1));
+    canvas.set_pixel(0, 0, Color(1.5, 0, 0));
+    canvas.set_pixel(2, 1, Color(0, 0.5, 0));
+    canvas.set_pixel(4, 2, Color(-0.5, 0, 1));
 
-    auto ppm = canvas.toPPM();
+    auto ppm = canvas.to_ppm();
     auto result = split(ppm, "\n");
 
     EXPECT_EQ(result[3], "255 0 0 0 0 0 0 0 0 0 0 0 0 0 0");
@@ -65,11 +65,11 @@ TEST(CanvasTest, PPMLineLength)
     {
         for (int y = 0; y < canvas.height; y++)
         {
-            canvas.setPixel(x, y, Color(1, 0.8, 0.6));
+            canvas.set_pixel(x, y, Color(1, 0.8, 0.6));
         }
     }
 
-    auto ppm = canvas.toPPM();
+    auto ppm = canvas.to_ppm();
     auto result = split(ppm, "\n");
 
     EXPECT_EQ(result[3], "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204");

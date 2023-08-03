@@ -4,15 +4,6 @@
 #include <raytracer/core/matrices/helper.hpp>
 #include <raytracer/core/rays.hpp>
 
-Vector IShape::normal_at(float x, float y, float z) const
-{
-    Point object_point = MatrixHelper(inverse(this->transform) * Point(x, y, z)).to_point();
-    Vector object_normal = object_point - Point(0, 0, 0);
-    Vector world_normal = MatrixHelper(transpose(inverse(this->transform)) * object_normal).to_vector();
-
-    return world_normal.normalize();
-}
-
 IShape IShape::translate(float x, float y, float z)
 {
     this->transform = this->transform * translation(x, y, z);

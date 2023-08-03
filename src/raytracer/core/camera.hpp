@@ -56,7 +56,7 @@ inline Ray ray_for_pixel(const Camera &camera, int pixel_x, int pixel_y)
     return Ray(origin, direction);
 }
 
-inline Canvas render(const Camera &camera, const World &world)
+inline Canvas render(const Camera &camera, World &world)
 {
     Canvas result = Canvas(camera.h_size, camera.v_size);
 
@@ -66,7 +66,7 @@ inline Canvas render(const Camera &camera, const World &world)
         {
             Ray ray = ray_for_pixel(camera, x, y);
             Color color = color_at(world, ray);
-            result.setPixel(x, y, color);
+            result.set_pixel(x, y, color);
         }
     }
 

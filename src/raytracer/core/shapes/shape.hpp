@@ -1,6 +1,7 @@
 #ifndef SHAPES_H
 #define SHAPES_H
 
+#include <algorithm>
 #include <string>
 #include <raytracer/core/matrices/matrix.hpp>
 #include <raytracer/core/matrices/helper.hpp>
@@ -18,8 +19,17 @@ struct IShape
         this->transform = MatrixHelper::identity();
         this->material = Material();
     }
+    virtual ~IShape() = default;
 
-    Vector normal_at(float x, float y, float z) const;
+    virtual std::vector<float> intersect(const Ray &ray) const
+    {
+        return {};
+    }
+
+    virtual Vector normal_at(float x, float y, float z) const
+    {
+        return Vector(0, 0, 0);
+    }
 
     IShape translate(float x, float y, float z);
 

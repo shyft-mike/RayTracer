@@ -76,5 +76,5 @@ TEST(CameraTest, Render)
 
     Canvas result = render(c, w);
 
-    check_color(result.getPixel(5, 5), Color(0.38066, 0.47583, 0.2855));
+    check_color(result.get_pixel(5, 5), Color(0.38066, 0.47583, 0.2855));
 }

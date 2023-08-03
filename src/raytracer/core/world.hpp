@@ -12,20 +12,20 @@
 struct World
 {
     std::vector<PointLight> lights;
-    std::vector<IShape> shapes;
+    std::vector<IShape *> shapes;
 };
 
 inline World create_default_world()
 {
     World result = World();
 
-    Sphere s1 = Sphere("1");
-    s1.material.color = Color(0.8, 1.0, 0.6);
-    s1.material.diffuse = 0.7;
-    s1.material.specular = 0.2;
+    IShape *s1 = new Sphere("1");
+    s1->material.color = Color(0.8, 1.0, 0.6);
+    s1->material.diffuse = 0.7;
+    s1->material.specular = 0.2;
 
-    Sphere s2 = Sphere("2");
-    s2.scale(0.5, 0.5, 0.5);
+    IShape *s2 = new Sphere("2");
+    s2->scale(0.5, 0.5, 0.5);
 
     result.lights = {PointLight(Point(-10, 10, -10), Color(1, 1, 1))};
 
@@ -34,13 +34,13 @@ inline World create_default_world()
     return result;
 }
 
-inline Intersections intersect_world(const World &world, const Ray &ray)
+inline Intersections intersect_world(World &world, const Ray &ray)
 {
-    Intersections results = {{}};
+    Intersections results = Intersections({});
 
     for (int i = 0; i < world.shapes.size(); i++)
     {
-        Intersections intersections = intersect_shape(world.shapes[i], ray);
+        Intersections intersections = intersect(*world.shapes[i], ray);
 
         if (intersections.size() == 2)
         {
@@ -49,12 +49,12 @@ inline Intersections intersect_world(const World &world, const Ray &ray)
         }
     }
 
-    std::sort(results.begin(), results.end(), compareIntersection);
+    std::sort(results.begin(), results.end(), compare_intersection);
 
     return results;
 }
 
-inline bool is_shadowed(const World &world, const Point &point)
+inline bool is_shadowed(World &world, const Point &point)
 {
     for (int i = 0; i < world.lights.size(); i++)
     {
@@ -76,7 +76,7 @@ inline bool is_shadowed(const World &world, const Point &point)
     return false;
 }
 
-inline Color shade_hit(const World &world, const ComputedIntersection &computed_intersection)
+inline Color shade_hit(World &world, ComputedIntersection &computed_intersection)
 {
     Color result = BLACK;
 
@@ -85,7 +85,7 @@ inline Color shade_hit(const World &world, const ComputedIntersection &computed_
         bool shadowed = is_shadowed(world, computed_intersection.over_position);
 
         Color shade = lighting(
-            computed_intersection.object.material,
+            computed_intersection.object->material,
             world.lights[i],
             computed_intersection.over_position,
             computed_intersection.eye_direction,
@@ -98,7 +98,7 @@ inline Color shade_hit(const World &world, const ComputedIntersection &computed_
     return result;
 }
 
-inline Color color_at(const World &world, const Ray &ray)
+inline Color color_at(World &world, const Ray &ray)
 {
     Intersections intersections = intersect_world(world, ray);
     std::optional<Intersection> potential_hit = hit(intersections);

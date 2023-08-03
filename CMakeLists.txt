@@ -42,10 +42,11 @@ target_sources(
   PRIVATE tests/canvas.test.cpp
   PRIVATE tests/colors.test.cpp
   PRIVATE tests/light.test.cpp
+  PRIVATE tests/intersections.test.cpp
   PRIVATE tests/material.test.cpp
   PRIVATE tests/matrix.test.cpp
-  PRIVATE tests/intersections.test.cpp
   PRIVATE tests/rays.test.cpp
+  PRIVATE tests/plane.test.cpp
   PRIVATE tests/sphere.test.cpp
   PRIVATE tests/transformations.test.cpp
   PRIVATE tests/world.test.cpp
