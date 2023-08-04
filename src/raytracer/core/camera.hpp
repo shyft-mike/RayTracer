@@ -1,7 +1,9 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+#include <algorithm>
 #include <math.h>
+#include <future>
 #include <raytracer/core/canvas.hpp>
 #include <raytracer/core/colors.hpp>
 #include <raytracer/core/matrices/matrix.hpp>
@@ -60,13 +62,70 @@ inline Canvas render(const Camera &camera, World &world)
 {
     Canvas result = Canvas(camera.h_size, camera.v_size);
 
-    for (int y = 0; y < camera.v_size; y++)
+    int pixel_count = camera.v_size * camera.h_size;
+
+    int thread_count = 100; // hehe
+    int start_index = -1;
+    int end_index = -1;
+
+    if (config::is_async)
     {
-        for (int x = 0; x < camera.h_size; x++)
+        do
         {
-            Ray ray = ray_for_pixel(camera, x, y);
-            Color color = color_at(world, ray);
-            result.set_pixel(x, y, color);
+            start_index = end_index + 1;
+            end_index += thread_count;
+
+            if (end_index > pixel_count)
+            {
+                end_index = pixel_count;
+                thread_count = end_index - start_index;
+            }
+
+            // First step: Do all the rays at once
+            std::vector<std::future<Ray>> ray_threads = std::vector<std::future<Ray>>();
+            ray_threads.reserve(thread_count);
+
+            for (int i = 0; i < thread_count; i++)
+            {
+                auto [x, y] = result.index_to_xy(start_index + i);
+
+                ray_threads.push_back(std::async(std::launch::async, ray_for_pixel, camera, x, y));
+            }
+
+            // Second step: Generate all the colors
+            std::vector<std::future<Color>> color_threads = std::vector<std::future<Color>>();
+            color_threads.reserve(pixel_count);
+
+            for (std::future<Ray> &ray_thread : ray_threads)
+            {
+                Ray ray = ray_thread.get();
+                color_threads.push_back(std::async(std::launch::async, color_at, world, ray));
+            }
+
+            // Third step: set the colors in the world
+            int color_index = 0;
+            for (std::future<Color> &color_thread : color_threads)
+            {
+                auto [x, y] = result.index_to_xy(start_index + color_index);
+
+                Color color = color_threads.at(color_index).get();
+                result.set_pixel(x, y, color);
+
+                color_index++;
+            }
+
+        } while (pixel_count > end_index);
+    }
+    else
+    {
+        for (int y = 0; y < camera.v_size; y++)
+        {
+            for (int x = 0; x < camera.h_size; x++)
+            {
+                Ray ray = ray_for_pixel(camera, x, y);
+                Color color = color_at(world, ray);
+                result.set_pixel(x, y, color);
+            }
         }
     }
 

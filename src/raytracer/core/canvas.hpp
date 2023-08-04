@@ -20,7 +20,7 @@ public:
         this->pixels.assign((width * height), Color(0, 0, 0));
     }
 
-    Color get_pixel(short x, short y) const
+    Color get_pixel(int x, int y) const
     {
         if (x >= this->width || x < 0 || y >= this->height || y < 0)
         {
@@ -32,7 +32,7 @@ public:
         return this->pixels.at(position);
     }
 
-    void set_pixel(short x, short y, const Color &pixel)
+    void set_pixel(int x, int y, const Color &pixel)
     {
         if (x >= this->width || x < 0 || y >= this->height || y < 0)
         {
@@ -70,6 +70,16 @@ public:
         ppm += this->generate_ppm_pixels();
 
         return ppm;
+    }
+
+    int get_position_index(int x, int y) const
+    {
+        return (y * this->width) + x;
+    }
+
+    std::array<int, 2> index_to_xy(int index) const
+    {
+        return {index % this->width, index / this->width};
     }
 
 private:
@@ -139,11 +149,6 @@ private:
         std::string result = std::to_string(std::clamp(adjustedColorValue, 0, 255));
 
         return result;
-    }
-
-    int get_position_index(short x, short y) const
-    {
-        return (y * this->width) + x;
     }
 };
 

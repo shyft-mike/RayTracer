@@ -15,6 +15,10 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
+# add threading
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 add_executable(
   main
 )
@@ -26,6 +30,7 @@ target_sources(
   PRIVATE src/raytracer/core/matrices/matrix.cpp
   PRIVATE src/raytracer/core/matrices/transformations.cpp
 )
+target_link_libraries(main PRIVATE Threads::Threads)
 target_include_directories(
   main
   PRIVATE src
@@ -46,6 +51,7 @@ target_sources(
   PRIVATE tests/material.test.cpp
   PRIVATE tests/matrix.test.cpp
   PRIVATE tests/rays.test.cpp
+  PRIVATE tests/pattern.test.cpp
   PRIVATE tests/plane.test.cpp
   PRIVATE tests/sphere.test.cpp
   PRIVATE tests/transformations.test.cpp
@@ -58,6 +64,7 @@ target_sources(
 target_link_libraries(
   tests
   GTest::gtest_main
+  Threads::Threads
 )
 target_include_directories(
   tests

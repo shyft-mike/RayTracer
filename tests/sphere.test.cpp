@@ -129,7 +129,7 @@ namespace SphereTest
     {
         Sphere result = Sphere("test");
 
-        EXPECT_EQ(result.material, Material());
+        ASSERT_TRUE(result.material == Material());
     }
 
     TEST(SphereTest, AssignedMaterial)

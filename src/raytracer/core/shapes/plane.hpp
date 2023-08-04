@@ -27,11 +27,7 @@ struct Plane : public IShape
 
     Vector normal_at(float x, float y, float z) const override
     {
-        Point object_point = MatrixHelper(inverse(this->transform) * Point(x, y, z)).to_point();
-        Vector object_normal = object_point - Point(0, 0, 0);
-        Vector world_normal = MatrixHelper(transpose(inverse(this->transform)) * object_normal).to_vector();
-
-        return world_normal.normalize();
+        return PLANE_NORMAL;
     }
 };
 

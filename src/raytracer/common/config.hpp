@@ -4,6 +4,7 @@
 namespace config
 {
     const bool is_debug = false;
+    const bool is_async = true;
 }
 
 #endif

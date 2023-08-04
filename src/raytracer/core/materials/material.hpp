@@ -3,15 +3,16 @@
 
 #include <raytracer/core/colors.hpp>
 #include <raytracer/core/lights/light.hpp>
+#include <raytracer/core/patterns/pattern.hpp>
 
 /// @brief The base for a Phong reflection-based material.
 struct Material
 {
-    Color color{Color(1, 1, 1)}; /// @brief The color of the material.
-    float ambient{0.1};          /// @brief Background or light reflected from other objects reflectivity.
-    float diffuse{0.9};          /// @brief Matte surface reflectivity.
-    float specular{0.9};         /// @brief Light source reflectivity (works with shininess).
-    float shininess{200};        /// @brief Controls the specular highlight.
+    IPattern *pattern{new SolidPattern(WHITE)}; /// @brief The pattern of the material. Defaults to SolidPattern(White).
+    float ambient{0.1};                         /// @brief Background or light reflected from other objects reflectivity. Defaults to 0.1.
+    float diffuse{0.9};                         /// @brief Matte surface reflectivity. Defaults to 0.9.
+    float specular{0.9};                        /// @brief Light source reflectivity (works with shininess). Defaults to 0.9.
+    float shininess{200};                       /// @brief Controls the specular highlight. Defaults to 200.
 };
 
 inline bool operator==(const Material &mat1, const Material &mat2)
@@ -21,7 +22,7 @@ inline bool operator==(const Material &mat1, const Material &mat2)
         return true;
     }
 
-    return (mat1.ambient == mat2.ambient) && (mat1.diffuse == mat2.diffuse) && (mat1.shininess == mat2.shininess) && (mat1.specular == mat2.specular) && (mat1.color == mat2.color);
+    return (mat1.ambient == mat2.ambient) && (mat1.diffuse == mat2.diffuse) && (mat1.shininess == mat2.shininess) && (mat1.specular == mat2.specular) && (mat1.pattern == mat2.pattern);
 }
 
 inline Color lighting(const Material &material, const PointLight &light, const Point &position, const Vector &eye_vector, const Vector &normal_vector, const bool in_shadow)
@@ -30,7 +31,7 @@ inline Color lighting(const Material &material, const PointLight &light, const P
     Color diffuse = {};
     Color specular = {};
 
-    Color effective_color = material.color * light.intensity;
+    Color effective_color = material.pattern->at(position.x, position.y, position.z) * light.intensity;
 
     Vector direction_to_light = (light.position - position).normalize();
 

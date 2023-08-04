@@ -1,6 +1,7 @@
 #ifndef INTERSECTIONS_H
 #define INTERSECTIONS_H
 
+#include <memory>
 #include <optional>
 #include <raytracer/common/constants.hpp>
 #include <raytracer/core/rays.hpp>

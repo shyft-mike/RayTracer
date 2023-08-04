@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "*.cshtml": "html",
+        "*.{cpp|hpp|h}": "cpp",
         "any": "cpp",
         "array": "cpp",
         "atomic": "cpp",
@@ -10,6 +11,7 @@
         "chrono": "cpp",
         "clocale": "cpp",
         "cmath": "cpp",
+        "codecvt": "cpp",
         "condition_variable": "cpp",
         "cstdarg": "cpp",
         "cstddef": "cpp",
@@ -45,6 +47,7 @@
         "type_traits": "cpp",
         "utility": "cpp",
         "fstream": "cpp",
+        "future": "cpp",
         "initializer_list": "cpp",
         "iomanip": "cpp",
         "iosfwd": "cpp",
@@ -59,8 +62,7 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "typeinfo": "cpp",
-        "variant": "cpp",
-        "codecvt": "cpp"
+        "variant": "cpp"
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "cmake.configureOnOpen": true

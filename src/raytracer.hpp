@@ -24,7 +24,7 @@ public:
     {
         World world = build_world();
 
-        Camera camera = Camera(100, 100, M_PI / 4);
+        Camera camera = Camera(500, 500, M_PI / 3);
         camera.transform = view_transform(Point(0, 1.5, -5), Point(0, 1, 0), Vector(1, 1.5, 0));
 
         Canvas canvas = render(camera, world);
@@ -35,37 +35,33 @@ public:
 private:
     World build_world()
     {
-        IShape *floor = new Plane("floor");
-        floor->transform = scaling(10, 0.01, 10);
-        floor->material.color = Color(1, 0.9, 0.9);
-        floor->material.specular = 0;
-
         IShape *background = new Plane("background");
-        background->scale(10, 10, 1).translate(0, 0, -15);
+        background->translate(0, 0, -20);
+        background->material.pattern = new SolidPattern(Color(1, 0.2, 0.3));
 
         IShape *middle = new Sphere("middle");
         middle->translate(-0.5, 1, 0.5);
-        middle->material.color = Color(1, 1, 0.45);
+        middle->material.pattern = new StripePattern(WHITE, Color(0.2, 0.3, 0.4));
         middle->material.diffuse = 0.9;
         middle->material.specular = 0.5;
 
         IShape *right = new Sphere("right");
         right->translate(1, 0, 0.5).scale(0.3, 0.2, 0.3);
-        right->material.color = Color(0.5, 0.6, 0.1);
+        right->material.pattern = new SolidPattern(Color(0.5, 0.6, 0.1));
         right->material.diffuse = 0.5;
         right->material.specular = 0.3;
 
         IShape *left = new Sphere("left");
-        left->translate(-1.5, 0.33, -0.75).scale(0.66, 0.66, 0.66);
-        left->material.color = Color(0.9, 0.9, 0.9);
+        left->translate(-1.5, 0.33, -0.75).scale(0.9, 0.15, 0.2);
+        left->material.pattern = new StripePattern(Color(0.9, 0.9, 0.9), Color(1, 0, 0));
         left->material.diffuse = 0.7;
         left->material.specular = 0.3;
 
         World world = World();
         world.lights = {
-            PointLight(Point(-10, 10, -10), Color(1, 1, 1))};
+            PointLight(Point(-10, 10, -10), WHITE),
+            PointLight(Point(0, 5, 1), WHITE)};
         world.shapes = {
-            floor,
             background,
             middle,
             left,

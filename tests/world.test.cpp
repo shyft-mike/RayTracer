@@ -100,7 +100,7 @@ TEST(WorldTest, ColorHitBehind)
 
     Color result = color_at(w, r);
 
-    check_color(result, inner.material.color);
+    check_color(result, inner.material.pattern->color);
 }
 
 TEST(WorldTest, ShadowNothingCollinearWithPointAndLight)
