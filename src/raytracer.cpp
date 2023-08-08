@@ -16,7 +16,8 @@ int main()
 
     auto ms_int = duration_cast<milliseconds>(end - start);
 
-    std::cerr << ms_int.count() << std::endl;
+    std::cerr << "-------------------------\n"
+              << "total time: " << ms_int.count() << std::endl;
 
     return 0;
 }

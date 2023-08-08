@@ -5,6 +5,7 @@
 #include <raytracer/core/intersections.hpp>
 #include <raytracer/core/materials/material.hpp>
 #include <raytracer/core/lights/light.hpp>
+#include <raytracer/core/shapes/plane.hpp>
 
 class CartesiaPointTestFixture : public testing::TestWithParam<std::tuple<Point, float, float, float>>
 {
@@ -46,10 +47,10 @@ class IntersectionsTestFixture : public testing::TestWithParam<std::tuple<Inters
 {
 };
 
-class MaterialLightingTestFixture : public testing::TestWithParam<std::tuple<Vector, Vector, PointLight, Color, bool>>
+class ShapeLightingTestFixture : public testing::TestWithParam<std::tuple<Vector, Vector, PointLight, Color, bool>>
 {
 public:
-    Material m = Material();
+    IShape *shape = new Plane("test");
     Point position = Point(0, 0, 0);
 };
 

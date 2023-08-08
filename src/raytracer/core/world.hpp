@@ -84,7 +84,7 @@ inline Color shade_hit(const World &world, ComputedIntersection &computed_inters
         bool shadowed = is_shadowed(world, computed_intersection.over_position);
 
         Color shade = lighting(
-            computed_intersection.object->material,
+            computed_intersection.object,
             world.lights[i],
             computed_intersection.over_position,
             computed_intersection.eye_direction,

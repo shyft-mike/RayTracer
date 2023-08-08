@@ -1,6 +1,8 @@
 #ifndef COLORS_H
 #define COLORS_H
 
+#include <ostream>
+
 struct Color
 {
     float red{0};
@@ -18,6 +20,9 @@ struct Color
 
 inline const Color BLACK = Color(0, 0, 0);
 inline const Color WHITE = Color(1, 1, 1);
+inline const Color RED = Color(1, 0, 0);
+inline const Color GREEN = Color(0, 1, 0);
+inline const Color BLUE = Color(0, 0, 1);
 
 inline Color operator+(const Color &color1, const Color &color2)
 {

@@ -25,7 +25,6 @@ add_executable(
 target_sources(
   main
   PUBLIC src/raytracer.cpp
-  PRIVATE src/raytracer/core/shapes/shape.cpp
   PRIVATE src/raytracer/core/matrices/helper.cpp
   PRIVATE src/raytracer/core/matrices/matrix.cpp
   PRIVATE src/raytracer/core/matrices/transformations.cpp
@@ -53,13 +52,14 @@ target_sources(
   PRIVATE tests/rays.test.cpp
   PRIVATE tests/pattern.test.cpp
   PRIVATE tests/plane.test.cpp
+  PRIVATE tests/shape.test.cpp
   PRIVATE tests/sphere.test.cpp
+  PRIVATE tests/transformable.test.cpp
   PRIVATE tests/transformations.test.cpp
   PRIVATE tests/world.test.cpp
   PRIVATE src/raytracer/core/matrices/helper.cpp
   PRIVATE src/raytracer/core/matrices/matrix.cpp
   PRIVATE src/raytracer/core/matrices/transformations.cpp
-  PRIVATE src/raytracer/core/shapes/shape.cpp
 )
 target_link_libraries(
   tests

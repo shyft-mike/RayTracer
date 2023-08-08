@@ -17,54 +17,82 @@
 #include <raytracer/core/world.hpp>
 #include <raytracer/core/camera.hpp>
 
+using std::chrono::duration;
+using std::chrono::duration_cast;
+using std::chrono::high_resolution_clock;
+using std::chrono::milliseconds;
+
 class RayTracer
 {
+
 public:
     void run()
     {
         World world = build_world();
 
-        Camera camera = Camera(500, 500, M_PI / 3);
-        camera.transform = view_transform(Point(0, 1.5, -5), Point(0, 1, 0), Vector(1, 1.5, 0));
+        Camera camera = Camera(200, 200, M_PI / 3);
+        camera.transform = view_transform(Point(0, 1.5, -5), Point(0, 1, 0), Vector(0, 1, 0));
+
+        auto start = high_resolution_clock::now();
 
         Canvas canvas = render(camera, world);
 
+        auto end = high_resolution_clock::now();
+        auto ms_int = duration_cast<milliseconds>(end - start);
+        std::cerr << "render() time: " << ms_int.count() << std::endl;
+
+        start = high_resolution_clock::now();
+
         this->save_canvas(canvas);
+
+        end = high_resolution_clock::now();
+        ms_int = duration_cast<milliseconds>(end - start);
+        std::cerr << "save_canvas() time: " << ms_int.count() << std::endl;
     }
 
 private:
     World build_world()
     {
-        IShape *background = new Plane("background");
-        background->translate(0, 0, -20);
-        background->material.pattern = new SolidPattern(Color(1, 0.2, 0.3));
+        BlendedPattern *blended_pattern = new BlendedPattern(
+            new RingPattern(WHITE, GREEN),
+            new RingPattern(RED, GREEN));
+
+        blended_pattern->a->translate(0.5, 0, 0);
+
+        IShape *floor = new Plane("floor");
+        floor->material.pattern = blended_pattern;
+
+        IShape *back = new Plane("back");
+        back->translate(0, 0, 15)->rotate_x(M_PI_2);
+        back->material.pattern = blended_pattern;
 
         IShape *middle = new Sphere("middle");
-        middle->translate(-0.5, 1, 0.5);
+        middle->translate(-0.5, 5, 10)->rotate_y(M_PI / 3)->scale(2.3, 2.3, 2.3);
         middle->material.pattern = new StripePattern(WHITE, Color(0.2, 0.3, 0.4));
+        middle->material.pattern->scale(0.1, 0.1, 0.1);
         middle->material.diffuse = 0.9;
         middle->material.specular = 0.5;
 
         IShape *right = new Sphere("right");
-        right->translate(1, 0, 0.5).scale(0.3, 0.2, 0.3);
-        right->material.pattern = new SolidPattern(Color(0.5, 0.6, 0.1));
+        right->translate(1.5, 0.5, -0.5)->rotate_z(M_PI_4)->scale(0.5, 0.5, 0.5);
+        right->material.pattern = new RadialGradientPattern(RED, BLUE);
+        right->material.pattern->scale(0.25, 0.25, 0.25);
         right->material.diffuse = 0.5;
         right->material.specular = 0.3;
 
-        IShape *left = new Sphere("left");
-        left->translate(-1.5, 0.33, -0.75).scale(0.9, 0.15, 0.2);
-        left->material.pattern = new StripePattern(Color(0.9, 0.9, 0.9), Color(1, 0, 0));
-        left->material.diffuse = 0.7;
-        left->material.specular = 0.3;
+        // IShape *left = new Sphere("left");
+        // left->scale(0.33, 0.33, 0.33).translate(-1.5, 0.33, -0.75);
+        // left->material.pattern = new CheckerPattern(Color(0.9, 0.9, 0.9), Color(1, 0, 0));
+        // left->material.diffuse = 0.7;
+        // left->material.specular = 0.3;
 
         World world = World();
         world.lights = {
-            PointLight(Point(-10, 10, -10), WHITE),
-            PointLight(Point(0, 5, 1), WHITE)};
+            PointLight(Point(-1, 5, -5), WHITE)};
         world.shapes = {
-            background,
+            floor,
             middle,
-            left,
+            // left,
             right};
 
         return world;
@@ -72,13 +100,20 @@ private:
 
     void save_canvas(const Canvas &canvas)
     {
-        auto now = std::chrono::high_resolution_clock::now();
-        auto timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch());
+        auto output = canvas.to_ppm();
+
+        auto now = high_resolution_clock::now();
+        auto timestamp = duration_cast<milliseconds>(now.time_since_epoch());
 
         std::filesystem::create_directory("../output");
+
         std::ofstream out("../output/canvas_" + std::to_string(timestamp.count()) + ".ppm");
-        out << canvas.to_ppm();
+        out << output;
         out.close();
+
+        std::ofstream static_out("../output/canvas_static.ppm");
+        static_out << output;
+        static_out.close();
     }
 };
 
