@@ -2,7 +2,7 @@
 #define SHAPES_H
 
 #include <algorithm>
-#include <string>
+#include <raytracer/common/ids.hpp>
 #include <raytracer/core/colors.hpp>
 #include <raytracer/core/lights/light.hpp>
 #include <raytracer/core/matrices/matrix.hpp>
@@ -12,10 +12,11 @@
 
 struct IShape : public ITransformable, ISkinnable
 {
-    std::string id;
+    int id;
 
-    IShape(std::string id) : ITransformable(), ISkinnable(), id(id)
+    IShape() : ITransformable(), ISkinnable()
     {
+        this->id = ids::generate_shape_id();
     }
     virtual ~IShape() = default;
 

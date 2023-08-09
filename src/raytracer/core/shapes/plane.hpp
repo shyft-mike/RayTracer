@@ -11,10 +11,6 @@ const Vector PLANE_NORMAL = Vector(0, 1, 0);
 
 struct Plane : public IShape
 {
-    Plane(std::string id) : IShape(id)
-    {
-    }
-
     std::vector<float> intersect(const Ray &ray) const override
     {
         if (std::abs(ray.direction.y) < FLT_EPSILON)

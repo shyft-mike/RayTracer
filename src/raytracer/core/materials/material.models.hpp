@@ -16,6 +16,8 @@ struct Material
     float specular{0.9};                      /// @brief Light source reflectivity (works with shininess). Defaults to 0.9.
     float shininess{200};                     /// @brief Controls the specular highlight. Defaults to 200.
     float reflective{0.0};                    /// @brief How reflective the material is. Defaults to 0.
+    float transparency{0.0};                  /// @brief How transparent the material is. Defaults to 0.
+    float refractive_index{1.0};              /// @brief The refractive index of the material. Defaults to 1, a vacuum.
 };
 
 struct ISkinnable

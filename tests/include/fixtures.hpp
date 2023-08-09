@@ -50,7 +50,7 @@ class IntersectionsTestFixture : public testing::TestWithParam<std::tuple<Inters
 class ShapeLightingTestFixture : public testing::TestWithParam<std::tuple<Vector, Vector, PointLight, Color, bool>>
 {
 public:
-    IShape *shape = new Plane("test");
+    IShape *shape = new Plane();
     Point position = Point(0, 0, 0);
 };
 

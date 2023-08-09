@@ -6,8 +6,17 @@
 
 struct Sphere : public IShape
 {
-    Sphere(std::string id) : IShape(id)
+    Sphere() : IShape()
     {
+    }
+
+    static Sphere glass_sphere()
+    {
+        Sphere result = Sphere();
+        result.material.transparency = 1;
+        result.material.refractive_index = 1.5;
+
+        return result;
     }
 
     std::vector<float> intersect(const Ray &ray) const override

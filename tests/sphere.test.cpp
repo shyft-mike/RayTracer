@@ -34,16 +34,15 @@ INSTANTIATE_TEST_SUITE_P(
 
 TEST(SphereTest, Default)
 {
-    Sphere result = Sphere("test");
+    Sphere result = Sphere();
 
-    EXPECT_EQ(result.id, "test");
     EXPECT_EQ(result.transform, MatrixHelper::identity().matrix);
 }
 
 TEST(SphereTest, IntersectScaledSphere)
 {
     Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
-    Sphere s = Sphere("test");
+    Sphere s = Sphere();
     s.transform = scaling(2, 2, 2);
 
     Intersections results = intersect(s, r);
@@ -56,7 +55,7 @@ TEST(SphereTest, IntersectScaledSphere)
 TEST(SphereTest, IntersectTranslatedSphere)
 {
     Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
-    Sphere s = Sphere("test");
+    Sphere s = Sphere();
     s.transform = translation(5, 0, 0);
 
     Intersections results = intersect(s, r);
@@ -66,7 +65,7 @@ TEST(SphereTest, IntersectTranslatedSphere)
 
 TEST(SphereTest, NormalX)
 {
-    Sphere s = Sphere("test");
+    Sphere s = Sphere();
 
     Vector result = s.normal_at(1, 0, 0);
 
@@ -75,7 +74,7 @@ TEST(SphereTest, NormalX)
 
 TEST(SphereTest, NormalY)
 {
-    Sphere s = Sphere("test");
+    Sphere s = Sphere();
 
     Vector result = s.normal_at(0, 1, 0);
 
@@ -84,7 +83,7 @@ TEST(SphereTest, NormalY)
 
 TEST(SphereTest, NormalZ)
 {
-    Sphere s = Sphere("test");
+    Sphere s = Sphere();
 
     Vector result = s.normal_at(0, 0, 1);
 
@@ -93,7 +92,7 @@ TEST(SphereTest, NormalZ)
 
 TEST(SphereTest, IsNormal)
 {
-    Sphere s = Sphere("test");
+    Sphere s = Sphere();
 
     Vector result = s.normal_at(std::sqrt(3) / 3, std::sqrt(3) / 3, std::sqrt(3) / 3);
 
@@ -102,7 +101,7 @@ TEST(SphereTest, IsNormal)
 
 TEST(SphereTest, NormalTranslated)
 {
-    Sphere s = Sphere("test");
+    Sphere s = Sphere();
     s.translate(0, 1, 0);
 
     Vector result = s.normal_at(0, 1.70711, -0.70711);
@@ -112,7 +111,7 @@ TEST(SphereTest, NormalTranslated)
 
 TEST(SphereTest, NormalTransformed)
 {
-    Sphere s = Sphere("test");
+    Sphere s = Sphere();
     s.scale(1, 0.5, 1)->rotate_z(M_PI / 5);
 
     Vector result = s.normal_at(0, std::sqrt(2) / 2, -std::sqrt(2) / 2);
@@ -122,17 +121,25 @@ TEST(SphereTest, NormalTransformed)
 
 TEST(SphereTest, DefaultMaterial)
 {
-    Sphere result = Sphere("test");
+    Sphere result = Sphere();
 
     ASSERT_TRUE(result.material == Material());
 }
 
 TEST(SphereTest, AssignedMaterial)
 {
-    Sphere result = Sphere("test");
+    Sphere result = Sphere();
     Material m = Material();
     m.ambient = 1;
     result.material = m;
 
     EXPECT_EQ(result.material, m);
+}
+
+TEST(SphereTest, GlassSphere)
+{
+    Sphere result = Sphere::glass_sphere();
+
+    EXPECT_FLOAT_EQ(result.material.transparency, 1.0);
+    EXPECT_FLOAT_EQ(result.material.refractive_index, 1.5);
 }

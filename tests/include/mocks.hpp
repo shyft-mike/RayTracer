@@ -29,12 +29,12 @@ inline std::unique_ptr<ITransformable> get_test_transformable()
 
 inline std::unique_ptr<Sphere> get_test_sphere()
 {
-    return std::make_unique<Sphere>("test");
+    return std::make_unique<Sphere>();
 }
 
 inline std::unique_ptr<Plane> get_test_plane()
 {
-    return std::make_unique<Plane>("test");
+    return std::make_unique<Plane>();
 }
 
 inline std::unique_ptr<Sphere> TEST_SPHERE = get_test_sphere();

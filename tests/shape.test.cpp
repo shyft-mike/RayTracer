@@ -29,7 +29,7 @@ INSTANTIATE_TEST_CASE_P(
 
 TEST(ShapeTest, LightingWithPattern)
 {
-    Plane *plane = new Plane("test");
+    Plane *plane = new Plane();
     plane->material.pattern = new StripePattern(WHITE, BLACK);
     plane->material.ambient = 1;
     plane->material.diffuse = 0;

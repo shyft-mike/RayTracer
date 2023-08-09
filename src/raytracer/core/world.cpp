@@ -11,12 +11,12 @@ World create_default_world()
 {
     World result = World();
 
-    IShape *s1 = new Sphere("1");
+    IShape *s1 = new Sphere();
     s1->material.pattern = new SolidPattern(Color(0.8, 1.0, 0.6));
     s1->material.diffuse = 0.7;
     s1->material.specular = 0.2;
 
-    IShape *s2 = new Sphere("2");
+    IShape *s2 = new Sphere();
     s2->scale(0.5, 0.5, 0.5);
 
     result.lights = {PointLight(Point(-10, 10, -10), Color(1, 1, 1))};

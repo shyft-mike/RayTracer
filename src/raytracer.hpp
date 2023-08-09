@@ -53,11 +53,11 @@ public:
 private:
     World build_world()
     {
-        IShape *floor = new Plane("floor");
+        IShape *floor = new Plane();
         floor->material.pattern = new CheckerPattern(WHITE, BLACK);
-        floor->material.reflective = 0.3;
+        floor->material.reflective = 0.5;
 
-        IShape *middle = new Sphere("middle");
+        IShape *middle = new Sphere();
         middle->translate(-0.5, 5, 10)->rotate_y(M_PI / 3)->scale(2.3, 2.3, 2.3);
         middle->material.pattern = new StripePattern(WHITE, Color(0.2, 0.3, 0.4));
         middle->material.pattern->scale(0.1, 0.1, 0.1);
@@ -65,7 +65,7 @@ private:
         middle->material.specular = 0.5;
         middle->material.reflective = 0.8;
 
-        IShape *right = new Sphere("right");
+        IShape *right = new Sphere();
         right->translate(1.5, 0.5, -0.5)->rotate_z(M_PI_4)->scale(0.5, 0.5, 0.5);
         right->material.pattern = new RadialGradientPattern(RED, BLUE);
         right->material.pattern->scale(0.25, 0.25, 0.25);

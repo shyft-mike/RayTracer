@@ -5,7 +5,7 @@
 
 TEST(PatternTest, PatternWithObjectTransform)
 {
-    Sphere s = Sphere("test");
+    Sphere s = Sphere();
     s.scale(2, 2, 2);
     s.material.pattern = new TestPattern();
 
@@ -16,7 +16,7 @@ TEST(PatternTest, PatternWithObjectTransform)
 
 TEST(PatternTest, PatternWithPatternTransform)
 {
-    Sphere s = Sphere("test");
+    Sphere s = Sphere();
     s.material.pattern = new TestPattern();
     s.material.pattern->scale(2, 2, 2);
 
@@ -27,7 +27,7 @@ TEST(PatternTest, PatternWithPatternTransform)
 
 TEST(PatternTest, PatternWithObjectAndPatternTransform)
 {
-    Sphere s = Sphere("test");
+    Sphere s = Sphere();
     s.scale(2, 2, 2);
     s.material.pattern = new TestPattern();
     s.material.pattern->translate(0.5, 1, 1.5);
@@ -71,7 +71,7 @@ TEST(PatternTest, StripePatternZ)
 
 TEST(PatternTest, StripeWithObjectTransform)
 {
-    Sphere s = Sphere("test");
+    Sphere s = Sphere();
     s.scale(2, 2, 2);
     s.material.pattern = new StripePattern(WHITE, BLACK);
 
@@ -82,7 +82,7 @@ TEST(PatternTest, StripeWithObjectTransform)
 
 TEST(PatternTest, StripeWithPatternTransform)
 {
-    Sphere s = Sphere("test");
+    Sphere s = Sphere();
     s.material.pattern = new StripePattern(WHITE, BLACK);
     s.material.pattern->scale(2, 2, 2);
 
@@ -93,7 +93,7 @@ TEST(PatternTest, StripeWithPatternTransform)
 
 TEST(PatternTest, StripeWithObjectAndPatternTransform)
 {
-    Sphere s = Sphere("test");
+    Sphere s = Sphere();
     s.scale(2, 2, 2);
     s.material.pattern = new StripePattern(WHITE, BLACK);
     s.material.pattern->translate(0.5, 0, 0);

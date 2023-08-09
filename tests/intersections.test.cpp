@@ -79,7 +79,7 @@ TEST(IntersectionsTest, IntersectionInside)
 TEST(IntersectionsTest, HitShouldOffsetPoint)
 {
     Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
-    IShape *shape = new Sphere("1");
+    IShape *shape = get_test_sphere();
     shape->translate(0, 0, 1);
     Intersection i = Intersection(5, shape);
 

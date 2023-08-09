@@ -55,8 +55,8 @@ TEST(WorldTest, ShadeHitInShadow)
 {
     World w = World();
     w.lights = {PointLight(Point(0, 0, -10), Color(1, 1, 1))};
-    IShape *s1 = new Sphere("s1");
-    IShape *s2 = new Sphere("s2");
+    IShape *s1 = new Sphere();
+    IShape *s2 = new Sphere();
     s2->translate(0, 0, 10);
     w.shapes = {s1, s2};
 
@@ -73,7 +73,7 @@ TEST(WorldTest, ShadeHitReflective)
 {
     World w = create_default_world();
     Ray r = Ray(Point(0, 0, -3), Vector(0, -std::sqrt(2) / 2, std::sqrt(2) / 2));
-    IShape *shape = new Plane("test");
+    IShape *shape = new Plane();
     shape->material.reflective = 0.5;
     shape->translate(0, -1, 0);
     w.shapes.push_back(shape);
@@ -163,7 +163,7 @@ TEST(WorldTest, ReflectedColor)
 {
     World w = create_default_world();
     Ray r = Ray(Point(0, 0, -3), Vector(0, -std::sqrt(2) / 2, std::sqrt(2) / 2));
-    IShape *shape = new Plane("test");
+    IShape *shape = new Plane();
     shape->material.reflective = 0.5;
     shape->translate(0, -1, 0);
     w.shapes.push_back(shape);
@@ -193,10 +193,10 @@ TEST(WorldTest, ReflectedColorMirrors)
 {
     World w = World();
     w.lights.push_back(PointLight(Point(0, 0, 0), WHITE));
-    IShape *lower = new Plane("lower");
+    IShape *lower = new Plane();
     lower->material.reflective = 1;
     lower->translate(0, -1, 0);
-    IShape *upper = new Plane("upper");
+    IShape *upper = new Plane();
     upper->material.reflective = 1;
     upper->translate(0, 1, 0);
     w.shapes.push_back(lower);
