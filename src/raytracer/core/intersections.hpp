@@ -45,6 +45,9 @@ struct ComputedIntersection : Intersection
     Vector normal_direction;
     Vector reflect_direction;
     Point over_position;
+    Point under_position;
+    float n1{1};
+    float n2{1};
     bool inside{false};
 
     ComputedIntersection(float t, IShape *object, Point position, Vector eye_direction, Vector normal_direction)
@@ -53,7 +56,8 @@ struct ComputedIntersection : Intersection
           eye_direction(eye_direction),
           normal_direction(normal_direction),
           reflect_direction(eye_direction),
-          over_position(position)
+          over_position(position),
+          under_position(position)
     {
         if (dot(this->normal_direction, this->eye_direction) < 0)
         {
@@ -62,6 +66,7 @@ struct ComputedIntersection : Intersection
         }
 
         this->over_position = this->position + this->normal_direction * ACNE_EPSILON;
+        this->under_position = this->position - this->normal_direction * ACNE_EPSILON;
         this->reflect_direction = reflect(-this->eye_direction, this->normal_direction);
     }
 
@@ -118,15 +123,61 @@ inline std::optional<Intersection> hit(Intersections &intersections)
     return std::nullopt;
 }
 
-inline ComputedIntersection compute_intersection(Intersection &intersection, const Ray &ray)
+inline ComputedIntersection compute_intersection(Intersection &intersection, const Ray &ray, const std::optional<Intersections> &intersections = std::nullopt)
 {
+    std::vector<IShape *> containers = {};
+    Intersections local_intersections = Intersections({intersection});
+
+    if (intersections && intersections.value().size() != 0)
+    {
+        local_intersections = intersections.value();
+    }
+
     Point position = ray.get_position(intersection.t);
 
-    return ComputedIntersection(
+    ComputedIntersection result = ComputedIntersection(
         intersection,
         position,
         -ray.direction,
         intersection.object->normal_at(position.x, position.y, position.z));
+
+    for (Intersection &related_intersection : local_intersections)
+    {
+        if (related_intersection == intersection)
+        {
+            if (containers.size() == 0)
+            {
+                result.n1 = 1;
+            }
+            else
+            {
+                result.n1 = containers.back()->material.refractive_index;
+            }
+        }
+
+        if (std::find(containers.begin(), containers.end(), related_intersection.object) != containers.end())
+        {
+            containers.erase(std::find(containers.begin(), containers.end(), related_intersection.object));
+        }
+        else
+        {
+            containers.push_back(related_intersection.object);
+        }
+
+        if (related_intersection == intersection)
+        {
+            if (containers.size() == 0)
+            {
+                result.n2 = 1;
+            }
+            else
+            {
+                result.n2 = containers.back()->material.refractive_index;
+            }
+        }
+    }
+
+    return result;
 }
 
 #endif

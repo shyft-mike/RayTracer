@@ -205,3 +205,90 @@ TEST(WorldTest, ReflectedColorMirrors)
 
     EXPECT_NO_THROW(color_at(w, r));
 }
+
+TEST(WorldTest, GetRefractedColorOpaqueSurface)
+{
+    World w = create_default_world();
+    IShape *shape = w.shapes.at(0);
+    Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
+    Intersections xs = Intersections({Intersection(4, shape), Intersection(6, shape)});
+    ComputedIntersection computed_intersection = compute_intersection(xs.at(0), r, xs);
+
+    Color result = get_refracted_color(w, computed_intersection, 5);
+
+    check_color(result, BLACK);
+}
+
+TEST(WorldTest, GetRefractedColorMaxRecursion)
+{
+    World w = create_default_world();
+    IShape *shape = w.shapes.at(0);
+    shape->material.transparency = 1;
+    shape->material.refractive_index = 1.5;
+    Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));
+    Intersections xs = Intersections({Intersection(4, shape), Intersection(6, shape)});
+    ComputedIntersection computed_intersection = compute_intersection(xs.at(0), r, xs);
+
+    Color result = get_refracted_color(w, computed_intersection, 0);
+
+    check_color(result, BLACK);
+}
+
+TEST(WorldTest, GetRefractedColorTotalInternalReflection)
+{
+    World w = create_default_world();
+    IShape *shape = w.shapes.at(0);
+    shape->material.transparency = 1;
+    shape->material.refractive_index = 1.5;
+    Ray r = Ray(Point(0, 0, std::sqrt(2) / 2), Vector(0, 1, 0));
+    Intersections xs = Intersections({Intersection(-std::sqrt(2) / 2, shape),
+                                      Intersection(std::sqrt(2) / 2, shape)});
+    ComputedIntersection computed_intersection = compute_intersection(xs.at(1), r, xs);
+
+    Color result = get_refracted_color(w, computed_intersection, 5);
+
+    check_color(result, BLACK);
+}
+
+TEST(WorldTest, GetRefractedColorHit)
+{
+    World w = create_default_world();
+    IShape *s1 = w.shapes.at(0);
+    s1->material.ambient = 1;
+    s1->material.pattern = TEST_PATTERN.get();
+    IShape *s2 = w.shapes.at(1);
+    s2->material.transparency = 1;
+    s2->material.refractive_index = 1.5;
+    Ray r = Ray(Point(0, 0, 0.1), Vector(0, 1, 0));
+    Intersections xs = Intersections({Intersection(-0.9899, s1),
+                                      Intersection(-0.4899, s2),
+                                      Intersection(0.4899, s2),
+                                      Intersection(0.9899, s1)});
+    ComputedIntersection computed_intersection = compute_intersection(xs.at(2), r, xs);
+
+    Color result = get_refracted_color(w, computed_intersection, 5);
+
+    check_color(result, Color(0, 0.99888, 0.04725));
+}
+
+TEST(WorldTest, ShadeHitTransparent)
+{
+    World w = create_default_world();
+    IShape *floor = TEST_PLANE.get();
+    floor->translate(0, -1, 0);
+    floor->material.transparency = 0.5;
+    floor->material.refractive_index = 1.5;
+    IShape *ball = TEST_SPHERE.get();
+    ball->translate(0, -3.5, -0.5);
+    ball->material.pattern = new SolidPattern(RED);
+    ball->material.ambient = 0.5;
+    w.shapes.push_back(floor);
+    w.shapes.push_back(ball);
+    Ray r = Ray(Point(0, 0, -3), Vector(0, -std::sqrt(2) / 2, std::sqrt(2) / 2));
+    Intersections xs = Intersections({Intersection(std::sqrt(2), floor)});
+    ComputedIntersection computed_intersection = compute_intersection(xs.at(0), r, xs);
+
+    Color result = shade_hit(w, computed_intersection, 5);
+
+    check_color(result, Color(0.93642, 0.68642, 0.68642));
+}

@@ -47,6 +47,10 @@ class IntersectionsTestFixture : public testing::TestWithParam<std::tuple<Inters
 {
 };
 
+class IntersectionsNTestFixture : public testing::TestWithParam<std::tuple<int, float, float>>
+{
+};
+
 class ShapeLightingTestFixture : public testing::TestWithParam<std::tuple<Vector, Vector, PointLight, Color, bool>>
 {
 public:

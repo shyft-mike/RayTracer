@@ -74,7 +74,7 @@ Color color_at(const World &world, const Ray &ray, int remaining)
 
     if (potential_hit.has_value())
     {
-        ComputedIntersection computed_intersection = compute_intersection(potential_hit.value(), ray);
+        ComputedIntersection computed_intersection = compute_intersection(potential_hit.value(), ray, intersections);
 
         return shade_hit(world, computed_intersection, remaining);
     }
@@ -101,6 +101,45 @@ Color get_reflected_color(const World &world, const ComputedIntersection &comput
     return color * computed_intersection.object->material.reflective;
 }
 
+Color get_refracted_color(const World &world, const ComputedIntersection &computed_intersection, int remaining)
+{
+    if (remaining <= 0)
+    {
+        return BLACK;
+    }
+
+    if (computed_intersection.object->material.transparency == 0)
+    {
+        return BLACK;
+    }
+
+    // Find the ratio of first index of refraction to the second.
+    // (Yup, this is inverted from the definition of Snell's Law.)
+    float n_ratio = computed_intersection.n1 / computed_intersection.n2;
+
+    // cos(theta_i) is the same as the dot product of the two vectors
+    float cos_i = dot(computed_intersection.eye_direction, computed_intersection.normal_direction);
+
+    // Find sin(theta_t) ^ 2 via trigonometric identity
+    float sin2_t = (n_ratio * n_ratio) * (1 - (cos_i * cos_i));
+
+    if (sin2_t > 1)
+    {
+        return BLACK;
+    }
+
+    // Find cos(theta_t) via trigonometric identity
+    float cos_t = std::sqrt(1.0 - sin2_t);
+
+    // Compute direction of refracted ray
+    Vector refracted_direction = computed_intersection.normal_direction * (n_ratio * cos_i - cos_t) - computed_intersection.eye_direction * n_ratio;
+
+    Ray refract_ray = Ray(computed_intersection.under_position, refracted_direction);
+
+    // Find the color of the refracted ray, making sure to account for transparency
+    return color_at(world, refract_ray, remaining - 1) * computed_intersection.object->material.transparency;
+}
+
 Color shade_hit(const World &world, ComputedIntersection &computed_intersection, int remaining)
 {
     Color result = BLACK;
@@ -118,8 +157,9 @@ Color shade_hit(const World &world, ComputedIntersection &computed_intersection,
             shadowed);
 
         Color reflected = get_reflected_color(world, computed_intersection, remaining);
+        Color refracted = get_refracted_color(world, computed_intersection, remaining);
 
-        result = result + surface + reflected;
+        result = result + surface + reflected + refracted;
     }
 
     return result;

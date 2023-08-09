@@ -18,8 +18,9 @@ struct World
 World create_default_world();
 Intersections intersect_world(const World &world, const Ray &ray);
 bool is_shadowed(const World &world, const Point &point);
-Color color_at(const World &world, const Ray &ray, int remaining = 4);
-Color get_reflected_color(const World &world, const ComputedIntersection &computed_intersection, int remaining = 4);
-Color shade_hit(const World &world, ComputedIntersection &computed_intersection, int remaining = 4);
+Color color_at(const World &world, const Ray &ray, int remaining = 5);
+Color get_reflected_color(const World &world, const ComputedIntersection &computed_intersection, int remaining = 5);
+Color get_refracted_color(const World &world, const ComputedIntersection &computed_intersection, int remaining = 5);
+Color shade_hit(const World &world, ComputedIntersection &computed_intersection, int remaining = 5);
 
 #endif

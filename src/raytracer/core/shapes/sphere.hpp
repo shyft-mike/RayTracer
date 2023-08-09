@@ -10,11 +10,11 @@ struct Sphere : public IShape
     {
     }
 
-    static Sphere glass_sphere()
+    static Sphere *glass_sphere()
     {
-        Sphere result = Sphere();
-        result.material.transparency = 1;
-        result.material.refractive_index = 1.5;
+        Sphere *result = new Sphere();
+        result->material.transparency = 1;
+        result->material.refractive_index = 1.5;
 
         return result;
     }

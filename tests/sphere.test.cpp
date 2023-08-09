@@ -138,8 +138,8 @@ TEST(SphereTest, AssignedMaterial)
 
 TEST(SphereTest, GlassSphere)
 {
-    Sphere result = Sphere::glass_sphere();
+    Sphere *result = Sphere::glass_sphere();
 
-    EXPECT_FLOAT_EQ(result.material.transparency, 1.0);
-    EXPECT_FLOAT_EQ(result.material.refractive_index, 1.5);
+    EXPECT_FLOAT_EQ(result->material.transparency, 1.0);
+    EXPECT_FLOAT_EQ(result->material.refractive_index, 1.5);
 }

@@ -30,7 +30,7 @@ public:
     {
         World world = build_world();
 
-        Camera camera = Camera(600, 600, M_PI / 3);
+        Camera camera = Camera(400, 400, M_PI / 3);
         camera.transform = view_transform(Point(0, 1.5, -5), Point(0, 1, 0), Vector(0, 1, 0));
 
         auto start = high_resolution_clock::now();
@@ -53,39 +53,29 @@ public:
 private:
     World build_world()
     {
-        IShape *floor = new Plane();
-        floor->material.pattern = new CheckerPattern(WHITE, BLACK);
-        floor->material.reflective = 0.5;
-
-        IShape *middle = new Sphere();
-        middle->translate(-0.5, 5, 10)->rotate_y(M_PI / 3)->scale(2.3, 2.3, 2.3);
-        middle->material.pattern = new StripePattern(WHITE, Color(0.2, 0.3, 0.4));
-        middle->material.pattern->scale(0.1, 0.1, 0.1);
-        middle->material.diffuse = 0.9;
-        middle->material.specular = 0.5;
-        middle->material.reflective = 0.8;
-
-        IShape *right = new Sphere();
-        right->translate(1.5, 0.5, -0.5)->rotate_z(M_PI_4)->scale(0.5, 0.5, 0.5);
-        right->material.pattern = new RadialGradientPattern(RED, BLUE);
-        right->material.pattern->scale(0.25, 0.25, 0.25);
-        right->material.diffuse = 0.5;
-        right->material.specular = 0.3;
-
-        // IShape *left = new Sphere("left");
-        // left->scale(0.33, 0.33, 0.33).translate(-1.5, 0.33, -0.75);
-        // left->material.pattern = new CheckerPattern(Color(0.9, 0.9, 0.9), Color(1, 0, 0));
-        // left->material.diffuse = 0.7;
-        // left->material.specular = 0.3;
-
         World world = World();
-        world.lights = {
-            PointLight(Point(-1, 5, -5), WHITE)};
+
+        PointLight light = PointLight(Point(-10, 10, -10), WHITE);
+        world.lights = {light};
+
+        IShape *floor = new Plane();
+        floor->translate(0, -1, 0);
+        floor->material.pattern = new CheckerPattern(WHITE, BLACK);
+        floor->material.reflective = 0.8;
+
+        IShape *ball = new Sphere();
+        ball->translate(0, 0, 4)->scale(2, 2, 2);
+        ball->material.pattern = new SolidPattern(RED);
+        ball->material.transparency = 1;
+
+        IShape *inner = new Sphere();
+        inner->translate(0, 0, 4);
+        inner->material.pattern = new CheckerPattern(WHITE, BLACK);
+
         world.shapes = {
             floor,
-            middle,
-            // left,
-            right};
+            ball,
+            inner};
 
         return world;
     }

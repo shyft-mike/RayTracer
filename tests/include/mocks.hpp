@@ -37,10 +37,17 @@ inline std::unique_ptr<Plane> get_test_plane()
     return std::make_unique<Plane>();
 }
 
+inline std::unique_ptr<IPattern> get_test_pattern()
+{
+    return std::make_unique<TestPattern>();
+}
+
 inline std::unique_ptr<Sphere> TEST_SPHERE = get_test_sphere();
 
 inline std::unique_ptr<Plane> TEST_PLANE = get_test_plane();
 
 inline const StripePattern TEST_STRIPE_PATTERN = StripePattern(WHITE, BLACK);
+
+inline std::unique_ptr<IPattern> TEST_PATTERN = get_test_pattern();
 
 #endif
