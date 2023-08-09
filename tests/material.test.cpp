@@ -14,4 +14,5 @@ TEST(MaterialTest, Default)
     EXPECT_FLOAT_EQ(m.diffuse, 0.9);
     EXPECT_FLOAT_EQ(m.specular, 0.9);
     EXPECT_FLOAT_EQ(m.shininess, 200);
+    EXPECT_FLOAT_EQ(m.reflective, 0.0);
 }

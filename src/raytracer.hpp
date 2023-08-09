@@ -30,7 +30,7 @@ public:
     {
         World world = build_world();
 
-        Camera camera = Camera(200, 200, M_PI / 3);
+        Camera camera = Camera(600, 600, M_PI / 3);
         camera.transform = view_transform(Point(0, 1.5, -5), Point(0, 1, 0), Vector(0, 1, 0));
 
         auto start = high_resolution_clock::now();
@@ -53,18 +53,9 @@ public:
 private:
     World build_world()
     {
-        BlendedPattern *blended_pattern = new BlendedPattern(
-            new RingPattern(WHITE, GREEN),
-            new RingPattern(RED, GREEN));
-
-        blended_pattern->a->translate(0.5, 0, 0);
-
         IShape *floor = new Plane("floor");
-        floor->material.pattern = blended_pattern;
-
-        IShape *back = new Plane("back");
-        back->translate(0, 0, 15)->rotate_x(M_PI_2);
-        back->material.pattern = blended_pattern;
+        floor->material.pattern = new CheckerPattern(WHITE, BLACK);
+        floor->material.reflective = 0.3;
 
         IShape *middle = new Sphere("middle");
         middle->translate(-0.5, 5, 10)->rotate_y(M_PI / 3)->scale(2.3, 2.3, 2.3);
@@ -72,6 +63,7 @@ private:
         middle->material.pattern->scale(0.1, 0.1, 0.1);
         middle->material.diffuse = 0.9;
         middle->material.specular = 0.5;
+        middle->material.reflective = 0.8;
 
         IShape *right = new Sphere("right");
         right->translate(1.5, 0.5, -0.5)->rotate_z(M_PI_4)->scale(0.5, 0.5, 0.5);

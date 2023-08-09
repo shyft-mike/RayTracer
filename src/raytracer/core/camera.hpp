@@ -99,7 +99,7 @@ inline Canvas render(const Camera &camera, World &world)
             for (std::future<Ray> &ray_thread : ray_threads)
             {
                 Ray ray = ray_thread.get();
-                color_threads.push_back(std::async(std::launch::async, color_at, world, ray));
+                color_threads.push_back(std::async(std::launch::async, color_at, world, ray, 4));
             }
 
             // Third step: set the colors in the world

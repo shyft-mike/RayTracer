@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <helpers.hpp>
+#include <raytracer.tests.hpp>
 #include <raytracer/core/world.hpp>
 #include <raytracer/core/rays.hpp>
 #include <raytracer/core/intersections.hpp>
@@ -67,6 +67,22 @@ TEST(WorldTest, ShadeHitInShadow)
     Color result = shade_hit(w, c_i);
 
     check_color(result, Color(0.1, 0.1, 0.1));
+}
+
+TEST(WorldTest, ShadeHitReflective)
+{
+    World w = create_default_world();
+    Ray r = Ray(Point(0, 0, -3), Vector(0, -std::sqrt(2) / 2, std::sqrt(2) / 2));
+    IShape *shape = new Plane("test");
+    shape->material.reflective = 0.5;
+    shape->translate(0, -1, 0);
+    w.shapes.push_back(shape);
+    Intersection i = Intersection(std::sqrt(2), shape);
+    ComputedIntersection computed = compute_intersection(i, r);
+
+    Color result = shade_hit(w, computed);
+
+    check_color(result, Color(0.87677, 0.92436, 0.82918));
 }
 
 TEST(WorldTest, ColorWhenMissed)
@@ -141,4 +157,51 @@ TEST(WorldTest, ShadowObjectBehindPoint)
     bool result = is_shadowed(w, p);
 
     EXPECT_EQ(result, false);
+}
+
+TEST(WorldTest, ReflectedColor)
+{
+    World w = create_default_world();
+    Ray r = Ray(Point(0, 0, -3), Vector(0, -std::sqrt(2) / 2, std::sqrt(2) / 2));
+    IShape *shape = new Plane("test");
+    shape->material.reflective = 0.5;
+    shape->translate(0, -1, 0);
+    w.shapes.push_back(shape);
+    Intersection i = Intersection(std::sqrt(2), shape);
+    ComputedIntersection computed = compute_intersection(i, r);
+
+    Color result = get_reflected_color(w, computed);
+
+    check_color(result, Color(0.19032, 0.2379, 0.14274));
+}
+
+TEST(WorldTest, ReflectedColorNonreflectiveMaterial)
+{
+    World w = create_default_world();
+    Ray r = Ray(Point(0, 0, 0), Vector(0, 0, 1));
+    IShape *shape = w.shapes.at(1);
+    shape->material.ambient = 1;
+    Intersection i = Intersection(1, shape);
+    ComputedIntersection computed = compute_intersection(i, r);
+
+    Color result = get_reflected_color(w, computed);
+
+    check_color(result, BLACK);
+}
+
+TEST(WorldTest, ReflectedColorMirrors)
+{
+    World w = World();
+    w.lights.push_back(PointLight(Point(0, 0, 0), WHITE));
+    IShape *lower = new Plane("lower");
+    lower->material.reflective = 1;
+    lower->translate(0, -1, 0);
+    IShape *upper = new Plane("upper");
+    upper->material.reflective = 1;
+    upper->translate(0, 1, 0);
+    w.shapes.push_back(lower);
+    w.shapes.push_back(upper);
+    Ray r = Ray(Point(0, 0, 0), Vector(0, 1, 0));
+
+    EXPECT_NO_THROW(color_at(w, r));
 }

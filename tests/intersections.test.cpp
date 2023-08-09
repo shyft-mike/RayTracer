@@ -43,6 +43,16 @@ TEST(IntersectionsTest, Precompute)
     EXPECT_EQ(result.normal_direction, Vector(0, 0, -1));
 }
 
+TEST(IntersectionsTest, PrecomputeReflection)
+{
+    Ray r = Ray(Point(0, 1, -1), Vector(0, -std::sqrt(2) / 2, std::sqrt(2) / 2));
+    Intersection i = Intersection(std::sqrt(2), TEST_PLANE.get());
+
+    ComputedIntersection result = compute_intersection(i, r);
+
+    EXPECT_EQ(result.reflect_direction, Vector(0, std::sqrt(2) / 2, std::sqrt(2) / 2));
+}
+
 TEST(IntersectionsTest, IntersectionOutside)
 {
     Ray r = Ray(Point(0, 0, -5), Vector(0, 0, 1));

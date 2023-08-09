@@ -43,6 +43,7 @@ struct ComputedIntersection : Intersection
     Point position;
     Vector eye_direction;
     Vector normal_direction;
+    Vector reflect_direction;
     Point over_position;
     bool inside{false};
 
@@ -51,6 +52,7 @@ struct ComputedIntersection : Intersection
           position(position),
           eye_direction(eye_direction),
           normal_direction(normal_direction),
+          reflect_direction(eye_direction),
           over_position(position)
     {
         if (dot(this->normal_direction, this->eye_direction) < 0)
@@ -60,6 +62,7 @@ struct ComputedIntersection : Intersection
         }
 
         this->over_position = this->position + this->normal_direction * ACNE_EPSILON;
+        this->reflect_direction = reflect(-this->eye_direction, this->normal_direction);
     }
 
     ComputedIntersection(Intersection &in, Point position, Vector eye_direction, Vector normal_direction)
