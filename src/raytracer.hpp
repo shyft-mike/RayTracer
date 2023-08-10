@@ -30,7 +30,7 @@ public:
     {
         World world = build_world();
 
-        Camera camera = Camera(400, 400, M_PI / 3);
+        Camera camera = Camera(200, 200, M_PI / 3);
         camera.transform = view_transform(Point(0, 1.5, -5), Point(0, 1, 0), Vector(0, 1, 0));
 
         auto start = high_resolution_clock::now();
@@ -58,15 +58,29 @@ private:
         PointLight light = PointLight(Point(-10, 10, -10), WHITE);
         world.lights = {light};
 
+        IShape *wall = new Plane();
+        wall->translate(0, 0, 100)->rotate_x(M_PI_2);
+        wall->material.pattern = new CheckerPattern(WHITE, BLACK);
+
         IShape *floor = new Plane();
         floor->translate(0, -1, 0);
         floor->material.pattern = new CheckerPattern(WHITE, BLACK);
-        floor->material.reflective = 0.8;
+
+        IShape *water = new Plane();
+        water->translate(0, -0.2, 0);
+        water->material.pattern = new SolidPattern(BLUE);
+        water->material.reflective = 0.9;
+        water->material.transparency = 0.9;
+        water->material.diffuse = 0.5;
+        water->material.specular = 1;
+        water->material.shininess = 369;
 
         IShape *ball = new Sphere();
         ball->translate(0, 0, 4)->scale(2, 2, 2);
         ball->material.pattern = new SolidPattern(RED);
         ball->material.transparency = 1;
+        ball->material.reflective = 1;
+        ball->material.diffuse = 0.5;
 
         IShape *inner = new Sphere();
         inner->translate(0, 0, 4);
@@ -74,6 +88,8 @@ private:
 
         world.shapes = {
             floor,
+            water,
+            wall,
             ball,
             inner};
 

@@ -1,6 +1,7 @@
 #ifndef INTERSECTIONS_H
 #define INTERSECTIONS_H
 
+#include <cmath>
 #include <memory>
 #include <optional>
 #include <raytracer/common/constants.hpp>
@@ -178,6 +179,33 @@ inline ComputedIntersection compute_intersection(Intersection &intersection, con
     }
 
     return result;
+}
+
+inline float get_schlick_reflectance(const ComputedIntersection &computed_intersection)
+{
+    float cos = dot(computed_intersection.eye_direction, computed_intersection.normal_direction);
+
+    // total internal reflection can only occur if n1 > n2
+    if (computed_intersection.n1 > computed_intersection.n2)
+    {
+        float n_ratio = computed_intersection.n1 / computed_intersection.n2;
+        float sin2_t = (n_ratio * n_ratio) * (1.0 - (cos * cos));
+
+        if (sin2_t > 1)
+        {
+            return 1;
+        }
+
+        float cos_t = std::sqrt(1 - sin2_t);
+
+        // when n1 > n2, use cos(theta_t) instead
+        cos = cos_t;
+    }
+
+    float r0 = ((computed_intersection.n1 - computed_intersection.n2) / (computed_intersection.n1 + computed_intersection.n2));
+    r0 = r0 * r0;
+
+    return r0 + (1 - r0) * std::pow(1 - cos, 2);
 }
 
 #endif

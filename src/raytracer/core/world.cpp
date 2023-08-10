@@ -159,7 +159,16 @@ Color shade_hit(const World &world, ComputedIntersection &computed_intersection,
         Color reflected = get_reflected_color(world, computed_intersection, remaining);
         Color refracted = get_refracted_color(world, computed_intersection, remaining);
 
-        result = result + surface + reflected + refracted;
+        Material material = computed_intersection.object->material;
+        if (material.reflective > 0 && material.transparency > 0)
+        {
+            float reflectance = get_schlick_reflectance(computed_intersection);
+            result = result + surface + reflected * reflectance + refracted * (1 - reflectance);
+        }
+        else
+        {
+            result = result + surface + reflected + refracted;
+        }
     }
 
     return result;
